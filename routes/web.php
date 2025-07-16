@@ -18,7 +18,7 @@ use Inertia\Inertia;
 // });
 
 Route::get('/', [HomeController::class, 'index'])->name('movies.index');
-Route::post('/search', [HomeController::class, 'searchByKeyword']);
+Route::post('/movie/?id={id}', [HomeController::class, 'searchByKeyword']);
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

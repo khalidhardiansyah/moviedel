@@ -60,10 +60,8 @@ class HomeController extends Controller
             "language" => "en-US",
             "page" => 1
         ]);
-        $result = array_filter($found['results'], fn($type) => $type['media_type'] !== "collection" && $type['release_date'] !== '');
-
+        $result = array_filter($found['results'], fn($type) => !empty($type['release_date']));
         return $result;
-        // return response()->json($found);
     }
 
     /**
