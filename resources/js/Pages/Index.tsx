@@ -18,8 +18,6 @@ type Movies = {
 export default function Index({ movies }: PageProps<{ movies: Movies[] }>) {
     const [keyword, setKeyword] = useState("");
 
-    console.log(movies);
-
     function handleSubmit(e: SyntheticEvent) {
         e.preventDefault();
         router.get(
