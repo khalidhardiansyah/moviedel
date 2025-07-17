@@ -15,10 +15,12 @@ class MovieDetailController extends Controller
     public function __invoke($id)
     {
         $movie = (new APITmdb)->fetchData('/movie/' . $id);
+        $list_genres = (new APITmdb)->fetchData('/genre/movie/list');
         $filteredResult = Arr::only($movie, [
             'id',
             'original_title',
-            'genre_ids',
+            'title',
+            'genres',
             'overview',
             'release_date',
             'poster_path',
@@ -28,11 +30,14 @@ class MovieDetailController extends Controller
             "https://vidsrc.pm/embed/movie?tmdb={$filteredResult['id']}"
         ];
 
+        $list_genres = $list_genres['genres'];
+
         $recommendations = (new APITmdb)->fetchData("/movie/{$id}/recommendations");
         $filteredRecommendation = collect($recommendations['results'])->map(fn($movie) => [
             "id" => $movie['id'],
             "original_title" => $movie['original_title'],
-            "genre_ids" => $movie['genre_ids'],
+            'title' => $movie['title'],
+            "genres" => array_intersect_key($list_genres, $filteredResult['genres']),
             "overview" => $movie['overview'],
             "release_date" => $movie['release_date'],
             "poster_path" => "https://image.tmdb.org/t/p/original" . $movie['poster_path'],
