@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MovieDetailController;
+use App\Http\Controllers\PlaylistController;
 use App\Http\Controllers\ProfileController;
 use App\Tmdb\APITmdb;
 use Illuminate\Foundation\Application;
@@ -20,6 +21,8 @@ use Inertia\Inertia;
 
 Route::get('/', [HomeController::class, 'index'])->name('movies.index');
 Route::get('/movie/detail/{id}', MovieDetailController::class)->name('movie.index');
+Route::post('/playlist', [PlaylistController::class, 'store'])->name('playlist.store');
+
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
