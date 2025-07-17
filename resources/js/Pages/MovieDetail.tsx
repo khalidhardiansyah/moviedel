@@ -10,7 +10,8 @@ import {
 type Movie = {
     id: number;
     original_title: string;
-    genre_ids: [];
+    title: string;
+    genres: [];
     overview: string;
     release_date: string;
     poster_path: string;
@@ -19,13 +20,21 @@ type Movie = {
 export default function MovieDetail({
     movie,
     recommendation_list,
-}: PageProps<{ movie: Movie }>) {
+}: PageProps<{ movie: Movie; recommendation_list: Movie[] }>) {
+    console.log(movie);
+
     return (
         <div>
             <div>
                 <h1>{movie.original_title}</h1>
                 <p>{movie.overview}</p>
                 <p>{movie.release_date}</p>
+                <p>Genre</p>
+                <p>
+                    {movie.genres.map((genre) => (
+                        <span>{genre.name}</span>
+                    ))}
+                </p>
                 <iframe
                     src={movie.videos[0]}
                     className=" w-96 h-72"
