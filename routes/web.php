@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MovieDetailController;
 use App\Http\Controllers\ProfileController;
 use App\Tmdb\APITmdb;
 use Illuminate\Foundation\Application;
@@ -18,7 +19,7 @@ use Inertia\Inertia;
 // });
 
 Route::get('/', [HomeController::class, 'index'])->name('movies.index');
-Route::post('/movie/?id={id}', [HomeController::class, 'searchByKeyword']);
+Route::get('/movie/detail/{id}', MovieDetailController::class)->name('movie.index');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

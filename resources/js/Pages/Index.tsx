@@ -1,5 +1,5 @@
 import { PageProps } from "@/types";
-import { router } from "@inertiajs/react";
+import { router, Link } from "@inertiajs/react";
 import {
     ChangeEvent,
     ChangeEventHandler,
@@ -50,6 +50,12 @@ export default function Index({ movies }: PageProps<{ movies: Movies[] }>) {
                     <li>
                         title = {movie.original_title} <br />
                         <img className="w-9" src={movie.poster_path} alt="" />
+                        <Link
+                            href={`movie/detail/${movie.id}`}
+                            className=" bg-green-700 py-3 px-5"
+                        >
+                            Detail
+                        </Link>
                     </li>
                 ))}
             </ul>
