@@ -13,14 +13,12 @@ class playlist extends Model
 
     protected $fillable = [
         'name',
-        'description',
-        'user_id',
         'is_public',
     ];
 
 
     function collections(): BelongsToMany
     {
-        return $this->belongsToMany(collection::class, 'collection_playlists', 'playlist_id', 'collection_id')->withTimestamps();
+        return $this->belongsToMany(collection::class, 'collection_playlists')->withTimestamps();
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\playlist;
 use App\Tmdb\APITmdb;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -43,9 +44,13 @@ class MovieDetailController extends Controller
             "poster_path" => "https://image.tmdb.org/t/p/original" . $movie['poster_path'],
             "link" => url("movie/detail/{$movie['id']}")
         ]);
+
+        $user = auth()->user();
+        $playlist = playlist::where('user_id', '=', $user->id)->get(['id', 'name']);
         return Inertia::render('MovieDetail', [
             "movie" => $filteredResult,
-            "recommendation_list" => $filteredRecommendation
+            "recommendation_list" => $filteredRecommendation,
+            "playlists" => $playlist
         ]);
     }
 }

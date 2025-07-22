@@ -15,11 +15,13 @@ class PlaylistSeeder extends Seeder
     public function run(): void
     {
 
-        $collection =  collection::factory()->count(5)->create();
-        playlist::factory()->count(5)->create()->each(function ($playlist) use ($collection) {
-            $playlist->collections()->attach(
-                $collection->random(3)->pluck('id')->toArray()
-            );
-        });
+        //     $collection =  collection::factory()->count(5)->create();
+        //     playlist::factory()->count(5)->create()->each(function ($playlist) use ($collection) {
+        //         $playlist->collections()->attach(
+        //             $collection->random(3)->pluck('id')->toArray()
+        //         );
+        //     });
+
+        $playlist = playlist::factory()->has(collection::factory()->count(5))->create();
     }
 }

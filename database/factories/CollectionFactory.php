@@ -17,10 +17,10 @@ class CollectionFactory extends Factory
     public function definition(): array
     {
         return [
-            'id' => fake()->unique()->numerify("movie-###"),
-            'name' => fake()->sentence(),
+            'title' => fake()->sentence(),
+            'original_title' => fake()->sentence(),
             'year' => fake()->year(),
-            'video_src' => fake()->sentence(6),
+            'poster' => fake()->sentence(6),
         ];
     }
 }

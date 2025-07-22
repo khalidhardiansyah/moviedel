@@ -12,10 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('collections', function (Blueprint $table) {
-            $table->string('id')->primary();
-            $table->string("name");
-            $table->integer("year");
-            $table->longText("video_src");
+            $table->id();
+            $table->string("title");
+            $table->string("original_title");
+            $table->string("year");
+            $table->longText("poster");
             $table->timestamps();
         });
     }
