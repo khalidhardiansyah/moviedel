@@ -18,7 +18,6 @@ class PlaylistFactory extends Factory
     {
         return [
             'name' => fake()->sentence(),
-            'description' => fake()->sentence(5),
             'user_id' => fake()->numberBetween(1, 5),
         ];
     }

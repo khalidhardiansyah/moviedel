@@ -1,7 +1,9 @@
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import { Head } from "@inertiajs/react";
 
-export default function Dashboard() {
+export default function Dashboard({ playlists }) {
+    console.log(playlists);
+
     return (
         <AuthenticatedLayout
             header={
@@ -11,16 +13,27 @@ export default function Dashboard() {
             }
         >
             <Head title="Dashboard" />
-
-            <div className="py-12">
-                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                        <div className="p-6 text-gray-900">
-                            You're logged in!
+            <ul>
+                {playlists.map((playlist) => (
+                    <li>
+                        <p className=" text-xl font-medium uppercase my-4">
+                            {playlist.name}
+                        </p>
+                        <div className="flex space-x-3">
+                            {playlist.collections.map((movie) => (
+                                <div className="movie">
+                                    <img
+                                        className="w-28"
+                                        src={movie.poster}
+                                        alt={movie.title}
+                                    />
+                                    <p>{movie.original_title}</p>
+                                </div>
+                            ))}
                         </div>
-                    </div>
-                </div>
-            </div>
+                    </li>
+                ))}
+            </ul>
         </AuthenticatedLayout>
     );
 }
