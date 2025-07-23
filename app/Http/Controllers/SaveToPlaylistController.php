@@ -21,8 +21,8 @@ class SaveToPlaylistController extends Controller
             "year" => $request->year,
             "poster" => $request->poster,
         ]);
+        $collection->playlists()->sync($request->playlist_id);
         // dd($request->playlist_id);
-        $collection->playlists()->syncWithoutDetaching($request->playlist_id);
 
         // todo
         // ubah migrasi tabel

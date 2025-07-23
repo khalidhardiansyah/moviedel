@@ -6,6 +6,7 @@ use App\Models\playlist;
 use App\Tmdb\APITmdb;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class MovieDetailController extends Controller
@@ -28,7 +29,12 @@ class MovieDetailController extends Controller
         ]);
         $filteredResult['videos'] = [
             "https://vidsrc.io/embed/movie?tmdb={$filteredResult['id']}",
-            "https://vidsrc.pm/embed/movie?tmdb={$filteredResult['id']}"
+            "https://vidsrc.pm/embed/movie?tmdb={$filteredResult['id']}",
+            "https://vidlink.pro/movie/{$filteredResult['id']}",
+            "https://player.autoembed.cc/embed/movie/{$filteredResult['id']}",
+            "https://embed.su/embed/movie/{$filteredResult['id']}",
+            "https://multiembed.mov/?video_id={$filteredResult['id']}&tmdb=1"
+
         ];
 
         $list_genres = $list_genres['genres'];
@@ -46,11 +52,26 @@ class MovieDetailController extends Controller
         ]);
 
         $user = auth()->user();
-        $playlist = playlist::where('user_id', '=', $user->id)->get(['id', 'name']);
+        $playlist = $user->playlists()->select("id", "name")->get();
+        $playlist = $playlist->map(function ($playlist) use ($id) {
+            $hasMovie = $playlist->collections()->where('collections.id', $id)->exists();
+
+            return [
+                'id' => $playlist->id,
+                "name" => $playlist->name,
+                "checked" => $hasMovie
+            ];
+        });
+
+        // return response()->json($playlist);
+
+
+        // if ($user) {
+        // }
         return Inertia::render('MovieDetail', [
             "movie" => $filteredResult,
             "recommendation_list" => $filteredRecommendation,
-            "playlists" => $playlist
+            "playlists" => !$user ? [] : $playlist
         ]);
     }
 }
