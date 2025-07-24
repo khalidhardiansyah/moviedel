@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string("name");
             $table->boolean("is_public")->default(false);
+            $table->string('name_slug')->unique();
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });

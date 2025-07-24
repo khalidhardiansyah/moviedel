@@ -6,11 +6,10 @@ use App\Http\Controllers\MovieDetailController;
 use App\Http\Controllers\PlaylistController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SaveToPlaylistController;
+use App\Http\Controllers\SharePlaylistController;
 use App\Tmdb\APITmdb;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 // Route::get('/', function () {
 //     return Inertia::render('Welcome', [
@@ -23,10 +22,11 @@ use Inertia\Inertia;
 
 Route::get('/', [HomeController::class, 'index'])->name('movies.index');
 Route::get('/movie/detail/{id}', MovieDetailController::class)->name('movie.index');
+Route::get("/users/{user_slug}/playlists/{playlist_slug}", SharePlaylistController::class)->name("playlist.share_show");
 Route::middleware('auth')->group(function () {
     Route::post('/playlist', [PlaylistController::class, 'store'])->name('playlist.store');
     Route::post('/save-to-playlist', SaveToPlaylistController::class)->name('save.store');
-    Route::post('/playlist/{playlist}', [PlaylistController::class, 'destroy'])->name('playlist.destroy');
+    Route::delete('/playlist/{playlist}', [PlaylistController::class, 'destroy'])->name('playlist.destroy');
 });
 
 

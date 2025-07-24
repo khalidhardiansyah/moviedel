@@ -63,11 +63,6 @@ class MovieDetailController extends Controller
             ];
         });
 
-        // return response()->json($playlist);
-
-
-        // if ($user) {
-        // }
         return Inertia::render('MovieDetail', [
             "movie" => $filteredResult,
             "recommendation_list" => $filteredRecommendation,
