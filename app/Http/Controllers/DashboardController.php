@@ -18,7 +18,7 @@ class DashboardController extends Controller
         $data->each(fn($item) => $item->collections->each->makeHidden('pivot'));
 
         return Inertia::render("Dashboard", [
-            "playlists" => $data
+            "user_playlist" => $data
         ]);
     }
 

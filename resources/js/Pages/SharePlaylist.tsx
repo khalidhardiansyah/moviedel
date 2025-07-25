@@ -3,12 +3,10 @@ import React from "react";
 
 function SharePlaylist() {
     const { user, playlist } = usePage().props;
-    console.log(playlist);
-
     return (
         <div>
             SharePlaylist
-            <pre>{user}</pre>
+            <pre>{user.name}</pre>
             <h1>{playlist.name}</h1>
             <ul>
                 {playlist.collections.map((film) => (
@@ -19,7 +17,7 @@ function SharePlaylist() {
                             alt=""
                         />
                         <p>{film.title}</p>
-                        <p>{film.year}</p>
+                        <p>{film.release_date}</p>
                     </li>
                 ))}
             </ul>
