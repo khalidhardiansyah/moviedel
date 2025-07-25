@@ -17,6 +17,7 @@ class CollectionFactory extends Factory
     public function definition(): array
     {
         return [
+            'id' => fake()->unique()->numberBetween(1, 999),
             'title' => fake()->sentence(),
             'original_title' => fake()->sentence(),
             'year' => fake()->year(),
