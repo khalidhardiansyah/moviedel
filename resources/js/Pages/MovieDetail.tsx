@@ -8,22 +8,9 @@ import {
     SyntheticEvent,
     useState,
 } from "react";
-type Movie = {
-    id: number;
-    original_title: string;
-    title: string;
-    genres: [];
-    overview: string;
-    release_date: string;
-    poster_path: string;
-    videos: [];
-};
-export default function MovieDetail({
-    movie,
-    recommendation_list,
-    playlists,
-}: PageProps<{ movie: Movie; recommendation_list: Movie[] }>) {
-    const user = usePage().props.auth.user;
+
+export default function MovieDetail() {
+    const { user, movie, playlists, recommendation_list } = usePage().props;
     const [open, setOpen] = useState(false);
     const [Playlist, setPlaylist] = useState(playlists);
     const [server, setServer] = useState(movie.videos[0]);
@@ -32,14 +19,14 @@ export default function MovieDetail({
         title: movie.title,
         original_title: movie.original_title,
         year: movie.release_date,
-        poster: movie.poster_path,
+        poster: movie.poster,
         playlist_id: playlists.filter((p) => p.checked).map((p) => p.id),
     });
     const [values, setValues] = useState({
         name: "",
     });
 
-    const toggleCheckbox = (id) => {
+    const toggleCheckbox = (id: number) => {
         setPlaylist((prev) =>
             prev.map((p) => (p.id === id ? { ...p, checked: !p.checked } : p))
         );
@@ -52,7 +39,7 @@ export default function MovieDetail({
         );
     };
 
-    function handleChange(e) {
+    function handleChange(e: ChangeEvent<HTMLInputElement>) {
         const { name, value } = e.target;
 
         setValues((prevState) => ({
@@ -61,12 +48,12 @@ export default function MovieDetail({
         }));
     }
 
-    function handleSubmit(e) {
+    function handleSubmit(e: SyntheticEvent) {
         e.preventDefault();
         router.post("/playlist", values);
     }
 
-    function handleSaveMovie(e) {
+    function handleSaveMovie(e: SyntheticEvent) {
         e.preventDefault();
         // console.log(data);
 
@@ -92,7 +79,7 @@ export default function MovieDetail({
                     allowFullScreen={true}
                     referrerPolicy="origin"
                 ></iframe>
-                {movie.videos.map((source, i) => (
+                {movie.videos.map((source: string, i: number) => (
                     <button
                         onClick={() => setServer(source)}
                         className={`${
@@ -171,13 +158,9 @@ export default function MovieDetail({
                     {recommendation_list.map((movie) => (
                         <li>
                             title = {movie.original_title} <br />
-                            <img
-                                className="w-9"
-                                src={movie.poster_path}
-                                alt=""
-                            />
+                            <img className="w-9" src={movie.poster} alt="" />
                             <Link
-                                href={movie.link}
+                                href={movie.url}
                                 className=" bg-green-700 py-3 px-5"
                             >
                                 Detail

@@ -1,5 +1,5 @@
 import { PageProps } from "@/types";
-import { router, Link } from "@inertiajs/react";
+import { router, Link, usePage } from "@inertiajs/react";
 import {
     ChangeEvent,
     ChangeEventHandler,
@@ -7,15 +7,9 @@ import {
     SyntheticEvent,
     useState,
 } from "react";
-type Movies = {
-    id: number;
-    original_title: string;
-    genre_ids: [];
-    overview: string;
-    release_date: string;
-    poster_path: string;
-};
-export default function Index({ movies }: PageProps<{ movies: Movies[] }>) {
+
+export default function Index() {
+    const { movies } = usePage().props;
     const [keyword, setKeyword] = useState("");
 
     function handleSubmit(e: SyntheticEvent) {
@@ -55,7 +49,7 @@ export default function Index({ movies }: PageProps<{ movies: Movies[] }>) {
                 {movies.map((movie) => (
                     <li>
                         title = {movie.original_title} <br />
-                        <img className="w-9" src={movie.poster_path} alt="" />
+                        <img className="w-9" src={movie.poster} alt="" />
                         <Link
                             href={`movie/detail/${movie.id}`}
                             className=" bg-green-700 py-3 px-5"

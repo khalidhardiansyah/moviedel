@@ -1,9 +1,8 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head } from "@inertiajs/react";
+import { Head, usePage } from "@inertiajs/react";
 
-export default function Dashboard({ playlists }) {
-    console.log(playlists);
-
+export default function Dashboard() {
+    const { user_playlist } = usePage().props;
     return (
         <AuthenticatedLayout
             header={
@@ -14,7 +13,7 @@ export default function Dashboard({ playlists }) {
         >
             <Head title="Dashboard" />
             <ul>
-                {playlists.map((playlist) => (
+                {user_playlist.map((playlist) => (
                     <li>
                         <p className=" text-xl font-medium uppercase my-4">
                             {playlist.name}

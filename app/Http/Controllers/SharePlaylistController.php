@@ -23,11 +23,21 @@ class SharePlaylistController extends Controller
         $playlist->collections = DB::table("collections")
             ->join("collection_playlists", "collections.id", "=", "collection_playlists.collection_id")
             ->where("collection_playlists.playlist_id", $playlist->id)
-            ->select("collection_id", "title", "original_title", "year", "poster")
+            ->select("collections.id", "title", "original_title", "year", "poster")
             ->get();
 
+        $playlist->collections->map(fn($collection) => tap($collection->poster = url("https://image.tmdb.org/t/p/original{$collection->poster}")));
+        $playlist->collections->map(fn($collection) => tap($collection->link = url("movie/detail/{$collection->id}")));
+        $playlist->collections =  $playlist->collections->map(function ($collection) {
+            $array = (array) $collection;
+            $array['release_date'] = $array['year'];
+            unset($array['year']);
+            return $array;
+        });
+
+
         return Inertia::render("SharePlaylist", [
-            "user" => $user->name,
+            "user" => $user,
             "playlist" => $playlist
         ]);
     }

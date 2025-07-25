@@ -47,7 +47,7 @@ class MovieDetailController extends Controller
             "genres" => array_intersect_key($list_genres, $filteredResult['genres']),
             "overview" => $movie['overview'],
             "release_date" => $movie['release_date'],
-            "poster_path" => "https://image.tmdb.org/t/p/original" . $movie['poster_path'],
+            "poster" => "https://image.tmdb.org/t/p/original" . $movie['poster_path'],
             "link" => url("movie/detail/{$movie['id']}")
         ]);
 

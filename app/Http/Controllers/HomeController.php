@@ -33,10 +33,8 @@ class HomeController extends Controller
             "genre_ids" => $movie['genre_ids'],
             "overview" => $movie['overview'],
             "release_date" => $movie['release_date'],
-            "poster_path" => "https://image.tmdb.org/t/p/original" . $movie['poster_path'],
+            "poster" => "https://image.tmdb.org/t/p/original" . $movie['poster_path'],
         ]);
-
-        // dd(gettype($filteredResult));
         return Inertia::render('Index', [
             "movies" => $filteredResult
         ]);
