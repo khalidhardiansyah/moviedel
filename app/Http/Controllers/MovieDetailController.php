@@ -52,21 +52,24 @@ class MovieDetailController extends Controller
         ]);
 
         $user = auth()->user();
-        $playlist = $user->playlists()->select("id", "name")->get();
-        $playlist = $playlist->map(function ($playlist) use ($id) {
-            $hasMovie = $playlist->collections()->where('collections.id', $id)->exists();
+        $playlist = [];
+        if ($user) {
+            $playlist = $user->playlists()->select("id", "name")->get();
+            $playlist = $playlist->map(function ($playlist) use ($id) {
+                $hasMovie = $playlist->collections()->where('collections.id', $id)->exists();
 
-            return [
-                'id' => $playlist->id,
-                "name" => $playlist->name,
-                "checked" => $hasMovie
-            ];
-        });
+                return [
+                    'id' => $playlist->id,
+                    "name" => $playlist->name,
+                    "checked" => $hasMovie
+                ];
+            });
+        }
 
         return Inertia::render('MovieDetail', [
             "movie" => $filteredResult,
             "recommendation_list" => $filteredRecommendation,
-            "playlists" => !$user ? [] : $playlist
+            "playlists" => $playlist
         ]);
     }
 }
