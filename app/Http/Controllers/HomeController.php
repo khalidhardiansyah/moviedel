@@ -24,28 +24,18 @@ class HomeController extends Controller
             ])['results'];
         } else {
             $newMovieList =  $this->searchByKeyword(strtolower($request->query('keyword')));
-            // $newMovieList =;
         }
 
         $filteredResult = collect(array_values($newMovieList))->map(fn($movie) => [
             "id" => $movie['id'],
             "original_title" => $movie['original_title'],
-            "genre_ids" => $movie['genre_ids'],
-            "overview" => $movie['overview'],
             "release_date" => $movie['release_date'],
             "poster" => "https://image.tmdb.org/t/p/original" . $movie['poster_path'],
+            "url" => url("movie/detail/{$movie['id']}")
         ]);
         return Inertia::render('Index', [
             "movies" => $filteredResult
         ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
 
@@ -60,37 +50,5 @@ class HomeController extends Controller
         ]);
         $result = array_filter($found['results'], fn($type) => !empty($type['release_date']));
         return $result;
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }

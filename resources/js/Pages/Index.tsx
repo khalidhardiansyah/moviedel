@@ -59,7 +59,7 @@ export default function Index() {
                     </h1>
 
                     <div className="movies__result">
-                        <ul className="max-w-7xl mx-auto grid grid-cols-2 grid-flow-row gap-x-10 gap-y-4 sm:grid-cols-5">
+                        <div className="max-w-7xl mx-auto grid grid-cols-2 grid-flow-row gap-x-10 gap-y-4 md:grid-cols-4 lg:grid-cols-6">
                             {movies.map((movie) => (
                                 <MovieCard
                                     poster={movie.poster}
@@ -70,7 +70,7 @@ export default function Index() {
                                     }
                                 />
                             ))}
-                        </ul>
+                        </div>
                     </div>
                 </div>
             )}
