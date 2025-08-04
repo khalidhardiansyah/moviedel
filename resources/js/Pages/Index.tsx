@@ -7,6 +7,7 @@ import { router, Link, usePage } from "@inertiajs/react";
 import { SyntheticEvent, useState } from "react";
 import { PlayIcon } from "hugeicons-react";
 import MovieCard from "@/Components/MovieCard";
+import SectionInfo from "@/Components/SectionInfo";
 
 export default function Index() {
     const { movies } = usePage().props;
@@ -54,23 +55,20 @@ export default function Index() {
 
             {movies && (
                 <div className=" mt-4">
-                    <h1 className=" mb-4 text-center font-semibold sm:text-xl">
+                    <h1 className=" mb-3 text-center font-semibold sm:text-xl">
                         Search Result
                     </h1>
-
-                    <div className="movies__result">
-                        <div className="max-w-7xl mx-auto grid grid-cols-2 grid-flow-row gap-x-10 gap-y-4 md:grid-cols-4 lg:grid-cols-6">
-                            {movies.map((movie) => (
-                                <MovieCard
-                                    poster={movie.poster}
-                                    title={movie.original_title}
-                                    release_date={movie.release_date}
-                                    onWatch={() =>
-                                        router.get(`/movie/detail/${movie.id}`)
-                                    }
-                                />
-                            ))}
-                        </div>
+                    <div className="max-w-7xl mx-auto grid grid-cols-3 grid-flow-row gap-x-3 gap-y-4 md:grid-cols-4 lg:grid-cols-6">
+                        {movies.map((movie) => (
+                            <MovieCard
+                                poster={movie.poster}
+                                title={movie.original_title}
+                                release_date={movie.release_date}
+                                onWatch={() =>
+                                    router.get(`/movie/detail/${movie.id}`)
+                                }
+                            />
+                        ))}
                     </div>
                 </div>
             )}

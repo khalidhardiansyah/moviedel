@@ -13,6 +13,7 @@ class playlist extends Model
 
     protected $fillable = [
         'name',
+        'name_slug',
         'is_public',
     ];
 

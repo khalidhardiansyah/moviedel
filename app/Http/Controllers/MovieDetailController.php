@@ -30,14 +30,17 @@ class MovieDetailController extends Controller
         $filteredResult['videos'] = [
             "https://vidsrc.io/embed/movie?tmdb={$filteredResult['id']}",
             "https://vidsrc.pm/embed/movie?tmdb={$filteredResult['id']}",
-            "https://vidlink.pro/movie/{$filteredResult['id']}",
+            "https://vidsrc.to/embed/movie/{$filteredResult['id']}",
             "https://player.autoembed.cc/embed/movie/{$filteredResult['id']}",
             "https://embed.su/embed/movie/{$filteredResult['id']}",
             "https://multiembed.mov/?video_id={$filteredResult['id']}&tmdb=1"
-
         ];
 
-        $list_genres = $list_genres['genres'];
+
+
+        $filteredResult['poster'] = $filteredResult['poster_path'] ?? null;
+        unset($filteredResult["poster_path"]);
+        $filteredResult['poster'] = "https://image.tmdb.org/t/p/original" . $movie['poster_path'];
 
         $recommendations = (new APITmdb)->fetchData("/movie/{$id}/recommendations");
         $filteredRecommendation = collect($recommendations['results'])->map(fn($movie) => [
@@ -65,6 +68,7 @@ class MovieDetailController extends Controller
                 ];
             });
         }
+
 
         return Inertia::render('MovieDetail', [
             "movie" => $filteredResult,

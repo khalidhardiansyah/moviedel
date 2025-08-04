@@ -27,6 +27,7 @@
         "vite": "^6.2.4"
     },
     "dependencies": {
-        "hugeicons-react": "^0.3.0"
+        "hugeicons-react": "^0.3.0",
+        "swiper": "^11.2.10"
     }
 }

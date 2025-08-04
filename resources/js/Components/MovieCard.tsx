@@ -12,8 +12,8 @@ export default function MovieCard<Movie>({
     onWatch,
 }: MovieCard) {
     return (
-        <div className="relative overflow-hidden rounded-md group">
-            <img src={poster} className=" w-full object-cover" />
+        <div className="relative overflow-hidden rounded-md group min-w-28 max-w-44 max-h-64">
+            <img src={poster} className="w-full h-full object-cover" />
             <div className="absolute inset-0 z-10 transition-opacity duration-300  bg-zinc-600/45 opacity-0 group-hover:opacity-100 group-hover:backdrop-blur-sm  flex items-end ">
                 <div className=" w-full p-3 z-20 ">
                     <h1 className=" text-sm font-bold sm:text-lg whitespace-normal">
@@ -24,7 +24,7 @@ export default function MovieCard<Movie>({
                     </span>
                     <button
                         type="button"
-                        className="transition-all text-sm duration-100 rounded-lg w-full min-h-7 sm:min-h-9 max-h-10 flex items-center justify-center  bg-red-500 hover:bg-red-600 cursor-pointer"
+                        className="transition-all text-sm duration-100 rounded-lg w-full min-h-7 sm:min-h-9 max-h-10 flex items-center gap-x-2 justify-center  bg-red-500 hover:bg-red-600 cursor-pointer"
                         onClick={onWatch}
                     >
                         <PlayIcon
@@ -41,15 +41,6 @@ export default function MovieCard<Movie>({
                             Watch
                         </span>
                     </button>
-                    {/* <Link
-                                                href={`movie/detail/${movie.id}`}
-                                                className=" bg-red-600 w-full hover:backdrop-blur-sm flex justify-center text-center py-2 rounded-md"
-                                            >
-                                                <PlayIcon />
-                                                <span className=" font-medium">
-                                                    Watch
-                                                </span>
-                                            </Link> */}
                 </div>
             </div>
         </div>
