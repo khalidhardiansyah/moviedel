@@ -1,26 +1,43 @@
+import InputLabel from "@/Components/InputLabel";
+import Modal from "@/Components/Modal";
 import MovieCard from "@/Components/MovieCard";
+import PrimaryButton from "@/Components/PrimaryButton";
+import SecondaryButton from "@/Components/SecondaryButton";
+import SelectInput from "@/Components/SelectInput";
+import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import ListLayout from "@/Layouts/ListLayout";
 import { Head, router, usePage } from "@inertiajs/react";
+import { Link02Icon, Link05Icon, Share01Icon } from "hugeicons-react";
+import { useState } from "react";
 
 export default function Dashboard() {
     const { user_playlist } = usePage().props;
+    const [open, setOpen] = useState(true);
+    const [playlist, setPlaylist] = useState(user_playlist);
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800">
+                <h2 className="text-xl font-semibold leading-tight  text-slate-100">
                     My Playlist
                 </h2>
             }
         >
             <Head title="Playlist" />
-            <div className="mt-5">
+            <div className="mt-5 ">
                 {user_playlist.map((playlist) => (
                     <section className="mb-5">
-                        <div className=" relative w-full border-b-2 ">
+                        <div className="w-full border-b-2 flex">
                             <h1 className=" md:text-2xl font-bold capitalize">
                                 {playlist.name}
                             </h1>
+                            <button
+                                type="button"
+                                className="ml-auto"
+                                onClick={() => setOpen(true)}
+                            >
+                                <Share01Icon />
+                            </button>
                         </div>
 
                         {playlist.collections.length !== 0 ? (
@@ -46,6 +63,41 @@ export default function Dashboard() {
                     </section>
                 ))}
             </div>
+            <Modal show={open} maxWidth="md" onClose={() => setOpen(false)}>
+                <div className="w-full bg-gray-50 px-5 py-4">
+                    <h2 className="first-letter:capitalize font-bold text-lg">
+                        Share playlist "Oscar Winners"
+                    </h2>
+                    <form action="" method="post" className="">
+                        <div className="mt2">
+                            <InputLabel
+                                value="playlist"
+                                className=" capitalize mb-1"
+                            />
+                            <TextInput
+                                className=" w-full"
+                                value="Oscar Winners"
+                            />
+                        </div>
+                        <div className="mt-2">
+                            <InputLabel
+                                value="privacy"
+                                className=" capitalize mb-1"
+                            />
+                            <SelectInput />
+                        </div>
+                    </form>
+                    <div className="flex w-full justify-between mt-5">
+                        <SecondaryButton className="hover:bg-sky-500/20 hover:border-blue-600">
+                            <Link05Icon size={20} className=" mr-1.5" />
+                            Copy link
+                        </SecondaryButton>
+                        <PrimaryButton onClick={() => setOpen(false)}>
+                            close
+                        </PrimaryButton>
+                    </div>
+                </div>
+            </Modal>
         </AuthenticatedLayout>
     );
 }

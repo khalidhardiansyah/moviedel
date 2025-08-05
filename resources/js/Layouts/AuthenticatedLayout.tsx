@@ -15,8 +15,8 @@ export default function Authenticated({
         useState(false);
 
     return (
-        <div className="min-h-screen bg-gray-100">
-            <nav className="border-b border-gray-100 bg-white">
+        <div className="min-h-screen pb-6 bg-slate-900 text-gray-100">
+            <nav className="border-b border-gray-100 bg-black ">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="flex h-16 justify-between">
                         <div className="flex">
@@ -166,14 +166,14 @@ export default function Authenticated({
             </nav>
 
             {header && (
-                <header className="bg-white shadow">
+                <header className="bg-slate-900 shadow">
                     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                         {header}
                     </div>
                 </header>
             )}
 
-            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-6">
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {children}
             </main>
         </div>

@@ -7,7 +7,7 @@ function ListLayout({
     return (
         <div
             className={
-                `grid grid-flow-row grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 ` +
+                `grid grid-flow-row grid-cols-2 md:grid-cols-3 lg:grid-cols-[repeat(7,_fit-content(12vw))] gap-2  ` +
                 classname
             }
         >
