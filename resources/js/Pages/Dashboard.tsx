@@ -7,14 +7,21 @@ import SelectInput from "@/Components/SelectInput";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import ListLayout from "@/Layouts/ListLayout";
+import { UserPlaylists } from "@/types";
 import { Head, router, usePage } from "@inertiajs/react";
 import { Link02Icon, Link05Icon, Share01Icon } from "hugeicons-react";
 import { useState } from "react";
 
 export default function Dashboard() {
     const { user_playlist } = usePage().props;
-    const [open, setOpen] = useState(true);
-    const [playlist, setPlaylist] = useState(user_playlist);
+    const [open, setOpen] = useState(false);
+    const [playlist, setPlaylist] = useState<UserPlaylists>();
+    function openModal(id: number) {
+        console.log(id);
+        setOpen(true);
+        const selectedPlaylist = user_playlist.find((item) => item.id === id);
+        setPlaylist(selectedPlaylist);
+    }
     return (
         <AuthenticatedLayout
             header={
@@ -34,7 +41,7 @@ export default function Dashboard() {
                             <button
                                 type="button"
                                 className="ml-auto"
-                                onClick={() => setOpen(true)}
+                                onClick={() => openModal(playlist.id)}
                             >
                                 <Share01Icon />
                             </button>
@@ -66,7 +73,8 @@ export default function Dashboard() {
             <Modal show={open} maxWidth="md" onClose={() => setOpen(false)}>
                 <div className="w-full bg-gray-50 px-5 py-4">
                     <h2 className="first-letter:capitalize font-bold text-lg">
-                        Share playlist "Oscar Winners"
+                        Share playlist{" "}
+                        <span className=" capitalize">"{playlist?.name}"</span>
                     </h2>
                     <form action="" method="post" className="">
                         <div className="mt2">
@@ -76,7 +84,7 @@ export default function Dashboard() {
                             />
                             <TextInput
                                 className=" w-full"
-                                value="Oscar Winners"
+                                value={playlist?.name}
                             />
                         </div>
                         <div className="mt-2">
