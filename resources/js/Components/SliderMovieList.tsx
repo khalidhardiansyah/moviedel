@@ -2,22 +2,23 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Collection } from "@/types";
 import MovieCard from "./MovieCard";
 import { router } from "@inertiajs/react";
-import { Scrollbar } from "swiper/modules";
+import { Navigation, Scrollbar } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/scrollbar";
 interface List {
     list: Collection[];
+    classname?: string;
 }
-export default function RecommendationMovie({ list }: List) {
+export default function SliderMovieList({ list, classname = "" }: List) {
     return (
-        <div>
+        <div className={classname}>
             <Swiper
                 speed={500}
                 modules={[Scrollbar]}
                 spaceBetween={12}
                 cssMode={true}
                 grabCursor={true}
-                scrollbar={{ draggable: true }}
+                scrollbar={{ draggable: true, hide: true }}
                 slidesPerView={3}
                 breakpoints={{
                     768: {

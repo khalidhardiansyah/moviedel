@@ -21,7 +21,9 @@ export interface Collection {
 export interface Playlist {
     id: number;
     name: string;
-    checked?: boolean;
+    name_slug: string;
+    url: string;
+    is_public?: boolean;
 }
 
 export interface SharePlaylist extends Playlist {
@@ -34,6 +36,15 @@ export interface MovieDetail extends Collection {
     overview: string;
     poster: string;
     videos: Array;
+}
+export type TypeToast = "success" | "error" | "info" | "warning" | "dark";
+
+export interface response {
+    message: string;
+    status: TypeToast;
+}
+export interface flash {
+    response: response;
 }
 
 export interface UserPlaylists extends Playlist {
@@ -53,4 +64,5 @@ export type PageProps<
     movie: MovieDetail;
     recommendation_list: Collection[];
     movies: Collection[];
+    flash: flash;
 };

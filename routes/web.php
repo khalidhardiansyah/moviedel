@@ -25,6 +25,7 @@ Route::get('/movie/detail/{id}', MovieDetailController::class)->name('movie.inde
 Route::get("/users/{user_slug}/playlists/{playlist_slug}", SharePlaylistController::class)->name("playlist.share_show");
 Route::middleware('auth')->group(function () {
     Route::post('/playlist', [PlaylistController::class, 'store'])->name('playlist.store');
+    Route::patch('/playlist/{id}', [PlaylistController::class, 'update'])->name('playlist.update');
     Route::post('/save-to-playlist', SaveToPlaylistController::class)->name('save.store');
     Route::delete('/playlist/{playlist}', [PlaylistController::class, 'destroy'])->name('playlist.destroy');
 });

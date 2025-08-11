@@ -17,6 +17,11 @@ class playlist extends Model
         'is_public',
     ];
 
+    protected function casts()
+    {
+        return ['is_public' => 'boolean'];
+    }
+
 
     function collections(): BelongsToMany
     {

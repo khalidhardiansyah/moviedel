@@ -19,6 +19,18 @@ class PlaylistController extends Controller
         ]);
     }
 
+    public function update(Request $request, $id)
+    {
+        $user = auth()->user();
+        $playlist = $user->playlists()->find($id);
+        $playlist->is_public = $request->is_public;
+        $playlist->save();
+        return back()->with("response", [
+            "message" => "successfull update privacy",
+            "status" => "success"
+        ]);
+    }
+
     public function destroy($playlist)
     {
         $user = auth()->user();

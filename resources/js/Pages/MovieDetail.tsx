@@ -1,6 +1,5 @@
 import Capsule from "@/Components/Capsule";
 import Modal from "@/Components/Modal";
-import RecommendationMovie from "@/Components/RecommendationMovie";
 import SectionInfo from "@/Components/SectionInfo";
 import ServerButton from "@/Components/ServerButton";
 import Guest from "@/Layouts/GuestLayout";
@@ -9,6 +8,7 @@ import { router, useForm, usePage } from "@inertiajs/react";
 import { ChangeEvent, SyntheticEvent, useState } from "react";
 import FormCreatePlaylist from "@/Components/FormCreatePlaylist";
 import FormAddMovieToPlaylist from "@/Components/FormAddMovieToPlaylist";
+import SliderMovieList from "@/Components/SliderMovieList";
 
 export type status = "add_to_playlist" | "create_playlist";
 
@@ -123,7 +123,7 @@ export default function MovieDetail() {
                         <h5 className=" text-xl font-bold mb-5">
                             Movie Recommendation
                         </h5>
-                        <RecommendationMovie list={recommendation_list} />
+                        <SliderMovieList list={recommendation_list} />
                     </SectionInfo>
                 </div>
             </div>

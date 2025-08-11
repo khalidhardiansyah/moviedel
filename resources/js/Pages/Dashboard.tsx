@@ -3,24 +3,70 @@ import Modal from "@/Components/Modal";
 import MovieCard from "@/Components/MovieCard";
 import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
-import SelectInput from "@/Components/SelectInput";
+import SliderMovieList from "@/Components/SliderMovieList";
 import TextInput from "@/Components/TextInput";
+import ToggleInput from "@/Components/ToggleInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import ListLayout from "@/Layouts/ListLayout";
-import { UserPlaylists } from "@/types";
-import { Head, router, usePage } from "@inertiajs/react";
-import { Link02Icon, Link05Icon, Share01Icon } from "hugeicons-react";
+import { TypeToast, UserPlaylists } from "@/types";
+import { Head, router, useForm, usePage } from "@inertiajs/react";
+import { Link05Icon, Share01Icon } from "hugeicons-react";
 import { useState } from "react";
-
+import { toast } from "react-toastify";
 export default function Dashboard() {
     const { user_playlist } = usePage().props;
+    const { data, setData } = useForm<{
+        is_public: boolean | undefined;
+        id: number | undefined;
+    }>({
+        id: undefined,
+        is_public: undefined,
+    });
     const [open, setOpen] = useState(false);
     const [playlist, setPlaylist] = useState<UserPlaylists>();
+    const [loading, setLoading] = useState<boolean>(false);
+
     function openModal(id: number) {
-        console.log(id);
         setOpen(true);
         const selectedPlaylist = user_playlist.find((item) => item.id === id);
+        setData("id", selectedPlaylist?.id);
+        setData("is_public", selectedPlaylist?.is_public);
         setPlaylist(selectedPlaylist);
+    }
+
+    function switchToggle(e: boolean) {
+        setLoading(true);
+        setData("is_public", e);
+
+        router.patch(
+            `/playlist/${data.id}`,
+            {
+                ...data,
+                is_public: e,
+            },
+
+            {
+                async: true,
+                onSuccess: (page) => {
+                    setLoading(false);
+                    const typeToast =
+                        page.props.flash.response.status ||
+                        ("info" as TypeToast);
+                    toast[typeToast](page.props.flash.response.message);
+                    router.reload({
+                        only: ["user_playlist"],
+                    });
+                },
+            }
+        );
+    }
+
+    function copyToClipboard() {
+        navigator.clipboard.writeText(playlist?.url || "").then(() => {
+            toast.success("Copied URL", {
+                position: "bottom-center",
+            });
+        });
     }
     return (
         <AuthenticatedLayout
@@ -47,21 +93,11 @@ export default function Dashboard() {
                             </button>
                         </div>
 
-                        {playlist.collections.length !== 0 ? (
-                            <ListLayout classname="mt-3">
-                                {playlist.collections.map((movie) => (
-                                    <MovieCard
-                                        poster={movie.poster}
-                                        title={movie.title}
-                                        release_date={movie.release_date}
-                                        onWatch={() =>
-                                            router.get(
-                                                `/movie/movie/detail/${movie.id}`
-                                            )
-                                        }
-                                    />
-                                ))}
-                            </ListLayout>
+                        {playlist.collections.length > 0 ? (
+                            <SliderMovieList
+                                list={playlist.collections}
+                                classname=" mt-3"
+                            />
                         ) : (
                             <h2 className=" capitalize md:text-xl mt-3">
                                 No saved movie
@@ -70,38 +106,49 @@ export default function Dashboard() {
                     </section>
                 ))}
             </div>
-            <Modal show={open} maxWidth="md" onClose={() => setOpen(false)}>
-                <div className="w-full bg-gray-50 px-5 py-4">
+            <Modal show={open} maxWidth="sm" onClose={() => setOpen(false)}>
+                <div className="w-full relative bg-gray-50 px-5 py-4">
                     <h2 className="first-letter:capitalize font-bold text-lg">
-                        Share playlist{" "}
-                        <span className=" capitalize">"{playlist?.name}"</span>
+                        Share playlist
+                        <span className=" capitalize"> "{playlist?.name}"</span>
                     </h2>
-                    <form action="" method="post" className="">
+                    <form action="" method="post">
                         <div className="mt2">
                             <InputLabel
                                 value="playlist"
                                 className=" capitalize mb-1"
                             />
                             <TextInput
-                                className=" w-full"
+                                disabled
+                                className=" w-full capitalize"
                                 value={playlist?.name}
                             />
                         </div>
-                        <div className="mt-2">
+                        <div className="mt-2 flex items-center gap-x-3">
+                            <ToggleInput
+                                checkedValue={data.is_public}
+                                onSwitch={switchToggle}
+                            />
                             <InputLabel
-                                value="privacy"
+                                value="Share playlist"
                                 className=" capitalize mb-1"
                             />
-                            <SelectInput />
                         </div>
                     </form>
                     <div className="flex w-full justify-between mt-5">
-                        <SecondaryButton className="hover:bg-sky-500/20 hover:border-blue-600">
+                        <SecondaryButton
+                            disabled={loading || data.is_public === false}
+                            className="hover:bg-sky-500/20 hover:border-blue-600"
+                            onClick={copyToClipboard}
+                        >
                             <Link05Icon size={20} className=" mr-1.5" />
                             Copy link
                         </SecondaryButton>
-                        <PrimaryButton onClick={() => setOpen(false)}>
-                            close
+                        <PrimaryButton
+                            disabled={loading}
+                            onClick={() => setOpen(false)}
+                        >
+                            {loading ? "saving" : "close"}
                         </PrimaryButton>
                     </div>
                 </div>
