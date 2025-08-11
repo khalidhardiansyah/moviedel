@@ -4,29 +4,35 @@ namespace App\Http\Controllers;
 
 use App\Tmdb\APITmdb;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Inertia\Inertia;
+
 
 class HomeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+
+    public function create()
     {
+        return Inertia::render('Index');
+    }
 
+    public function findMovie(Request $request)
+    {
+        $query = $request->query("q");
         $api = new APITmdb();
-        if (empty($request->query('keyword'))) {
-            $newMovieList = $api->fetchData('movie/now_playing', [
-                "language" => "en-US",
-                "page" => 1,
-                "region" => "ID"
-            ])['results'];
-        } else {
-            $newMovieList =  $this->searchByKeyword(strtolower($request->query('keyword')));
+        $found = $api->fetchData('search/movie', [
+            "query" => $query,
+            "include_adult" => false,
+            "language" => "en-US",
+            "page" => 1
+        ]);
+        if (empty($found['results'])) {
+            return response()->json("kosong");
         }
-
-        $filteredResult = collect(array_values($newMovieList))->map(fn($movie) => [
+        $result = array_filter($found['results'], fn($type) => !empty($type['release_date']  && $type['poster_path']));
+        $result = collect(array_values($result))->map(fn($movie) => [
             "id" => $movie['id'],
             "original_title" => $movie['original_title'],
             "release_date" => $movie['release_date'],
@@ -34,21 +40,8 @@ class HomeController extends Controller
             "url" => url("movie/detail/{$movie['id']}")
         ]);
         return Inertia::render('Index', [
-            "movies" => $filteredResult
+            "movies" => $result,
+            'q' => $query
         ]);
-    }
-
-
-    public function searchByKeyword($keyword)
-    {
-        $api = new APITmdb();
-        $found = $api->fetchData('search/multi', [
-            "query" => $keyword,
-            "include_adult" => false,
-            "language" => "en-US",
-            "page" => 1
-        ]);
-        $result = array_filter($found['results'], fn($type) => !empty($type['release_date']));
-        return $result;
     }
 }

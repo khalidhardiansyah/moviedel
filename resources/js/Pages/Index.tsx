@@ -7,7 +7,6 @@ import { router, Link, usePage } from "@inertiajs/react";
 import { SyntheticEvent, useState } from "react";
 import { PlayIcon } from "hugeicons-react";
 import MovieCard from "@/Components/MovieCard";
-import SectionInfo from "@/Components/SectionInfo";
 
 export default function Index() {
     const { movies } = usePage().props;
@@ -16,10 +15,12 @@ export default function Index() {
     function handleSubmit(e: SyntheticEvent) {
         e.preventDefault();
         router.get(
-            route("movies.index"),
-            { keyword },
+            route("movies.findMovie"),
             {
-                preserveState: false,
+                q: keyword,
+            },
+            {
+                only: ["movies"],
             }
         );
     }
@@ -44,10 +45,10 @@ export default function Index() {
                         />
                         <PrimaryButton>Search</PrimaryButton>
                         <Link
-                            href="/"
+                            href={route("movies.trending")}
                             className=" underline underline-offset-4"
                         >
-                            Browse Trending Movie
+                            Browse Trending Movies
                         </Link>
                     </form>
                 </div>
@@ -55,20 +56,23 @@ export default function Index() {
 
             {movies && (
                 <div className=" mt-4">
-                    <h1 className=" mb-3 text-center font-semibold sm:text-xl">
+                    <h1 className=" mb-4 text-center font-semibold sm:text-xl">
                         Search Result
                     </h1>
-                    <div className="max-w-7xl mx-auto grid grid-cols-3 grid-flow-row gap-x-3 gap-y-4 md:grid-cols-4 lg:grid-cols-6">
-                        {movies.map((movie) => (
-                            <MovieCard
-                                poster={movie.poster}
-                                title={movie.original_title}
-                                release_date={movie.release_date}
-                                onWatch={() =>
-                                    router.get(`/movie/detail/${movie.id}`)
-                                }
-                            />
-                        ))}
+
+                    <div className="movies__result">
+                        <div className="max-w-7xl mx-auto grid grid-cols-2 grid-flow-row gap-x-10 gap-y-4 md:grid-cols-4 lg:grid-cols-6">
+                            {movies.map((movie) => (
+                                <MovieCard
+                                    poster={movie.poster}
+                                    title={movie.original_title}
+                                    release_date={movie.release_date}
+                                    onWatch={() =>
+                                        router.get(`/movie/detail/${movie.id}`)
+                                    }
+                                />
+                            ))}
+                        </div>
                     </div>
                 </div>
             )}
