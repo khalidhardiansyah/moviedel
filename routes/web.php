@@ -7,6 +7,7 @@ use App\Http\Controllers\PlaylistController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SaveToPlaylistController;
 use App\Http\Controllers\SharePlaylistController;
+use App\Http\Controllers\TrendingMovieController;
 use App\Tmdb\APITmdb;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,8 +21,11 @@ use Illuminate\Support\Facades\Route;
 //     ]);
 // });
 
-Route::get('/', [HomeController::class, 'index'])->name('movies.index');
+Route::get('/', [HomeController::class, 'create'])->name('movies.create');
+Route::get('/search', [HomeController::class, 'findMovie'])->name('movies.findMovie');
+Route::get("/trending", TrendingMovieController::class)->name("movies.trending");
 Route::get('/movie/detail/{id}', MovieDetailController::class)->name('movie.index');
+
 Route::get("/users/{user_slug}/playlists/{playlist_slug}", SharePlaylistController::class)->name("playlist.share_show");
 Route::middleware('auth')->group(function () {
     Route::post('/playlist', [PlaylistController::class, 'store'])->name('playlist.store');

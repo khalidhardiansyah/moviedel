@@ -1,16 +1,15 @@
 import InputLabel from "@/Components/InputLabel";
 import Modal from "@/Components/Modal";
-import MovieCard from "@/Components/MovieCard";
 import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
 import SliderMovieList from "@/Components/SliderMovieList";
 import TextInput from "@/Components/TextInput";
 import ToggleInput from "@/Components/ToggleInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import ListLayout from "@/Layouts/ListLayout";
 import { TypeToast, UserPlaylists } from "@/types";
+import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { Head, router, useForm, usePage } from "@inertiajs/react";
-import { Link05Icon, Share01Icon } from "hugeicons-react";
+import { Link05Icon, MoreVerticalCircle01Icon } from "hugeicons-react";
 import { useState } from "react";
 import { toast } from "react-toastify";
 export default function Dashboard() {
@@ -22,12 +21,12 @@ export default function Dashboard() {
         id: undefined,
         is_public: undefined,
     });
-    const [open, setOpen] = useState(false);
     const [playlist, setPlaylist] = useState<UserPlaylists>();
     const [loading, setLoading] = useState<boolean>(false);
 
     function openModal(id: number) {
-        setOpen(true);
+        console.log(id);
+
         const selectedPlaylist = user_playlist.find((item) => item.id === id);
         setData("id", selectedPlaylist?.id);
         setData("is_public", selectedPlaylist?.is_public);
@@ -80,17 +79,55 @@ export default function Dashboard() {
             <div className="mt-5 ">
                 {user_playlist.map((playlist) => (
                     <section className="mb-5">
-                        <div className="w-full border-b-2 flex">
+                        <div className="w-full border-b-2 flex items-center">
                             <h1 className=" md:text-2xl font-bold capitalize">
                                 {playlist.name}
                             </h1>
-                            <button
-                                type="button"
-                                className="ml-auto"
-                                onClick={() => openModal(playlist.id)}
-                            >
-                                <Share01Icon />
-                            </button>
+
+                            <Popover className=" ml-auto relative">
+                                <PopoverButton
+                                    onClick={() => openModal(playlist.id)}
+                                >
+                                    <MoreVerticalCircle01Icon />
+                                </PopoverButton>
+
+                                <PopoverPanel
+                                    anchor="bottom end"
+                                    className="flex flex-col z-30 bg-gray-50 px-5 py-4 rounded-lg shadow border"
+                                >
+                                    <h2 className="first-letter:capitalize font-bold text-lg">
+                                        Share playlist
+                                        <span className=" capitalize">
+                                            {" "}
+                                            "{playlist.name}"
+                                        </span>
+                                    </h2>
+                                    <div className="mt-2 flex items-center justify-between">
+                                        <InputLabel
+                                            value="Share playlist"
+                                            className=" capitalize"
+                                        />
+                                        <ToggleInput
+                                            checkedValue={playlist.is_public}
+                                            onSwitch={switchToggle}
+                                        />
+                                    </div>
+                                    <SecondaryButton
+                                        disabled={
+                                            loading ||
+                                            playlist.is_public === false
+                                        }
+                                        className="hover:bg-sky-500/20 hover:border-blue-600 mt-2"
+                                        onClick={copyToClipboard}
+                                    >
+                                        <Link05Icon
+                                            size={20}
+                                            className=" mr-1.5"
+                                        />
+                                        Copy link
+                                    </SecondaryButton>
+                                </PopoverPanel>
+                            </Popover>
                         </div>
 
                         {playlist.collections.length > 0 ? (
@@ -106,53 +143,6 @@ export default function Dashboard() {
                     </section>
                 ))}
             </div>
-            <Modal show={open} maxWidth="sm" onClose={() => setOpen(false)}>
-                <div className="w-full relative bg-gray-50 px-5 py-4">
-                    <h2 className="first-letter:capitalize font-bold text-lg">
-                        Share playlist
-                        <span className=" capitalize"> "{playlist?.name}"</span>
-                    </h2>
-                    <form action="" method="post">
-                        <div className="mt2">
-                            <InputLabel
-                                value="playlist"
-                                className=" capitalize mb-1"
-                            />
-                            <TextInput
-                                disabled
-                                className=" w-full capitalize"
-                                value={playlist?.name}
-                            />
-                        </div>
-                        <div className="mt-2 flex items-center gap-x-3">
-                            <ToggleInput
-                                checkedValue={data.is_public}
-                                onSwitch={switchToggle}
-                            />
-                            <InputLabel
-                                value="Share playlist"
-                                className=" capitalize mb-1"
-                            />
-                        </div>
-                    </form>
-                    <div className="flex w-full justify-between mt-5">
-                        <SecondaryButton
-                            disabled={loading || data.is_public === false}
-                            className="hover:bg-sky-500/20 hover:border-blue-600"
-                            onClick={copyToClipboard}
-                        >
-                            <Link05Icon size={20} className=" mr-1.5" />
-                            Copy link
-                        </SecondaryButton>
-                        <PrimaryButton
-                            disabled={loading}
-                            onClick={() => setOpen(false)}
-                        >
-                            {loading ? "saving" : "close"}
-                        </PrimaryButton>
-                    </div>
-                </div>
-            </Modal>
         </AuthenticatedLayout>
     );
 }
