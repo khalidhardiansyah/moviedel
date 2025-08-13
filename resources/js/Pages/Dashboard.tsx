@@ -25,8 +25,6 @@ export default function Dashboard() {
     const [loading, setLoading] = useState<boolean>(false);
 
     function openModal(id: number) {
-        console.log(id);
-
         const selectedPlaylist = user_playlist.find((item) => item.id === id);
         setData("id", selectedPlaylist?.id);
         setData("is_public", selectedPlaylist?.is_public);
@@ -77,12 +75,10 @@ export default function Dashboard() {
         >
             <Head title="Playlist" />
             <div className="mt-5 ">
-                {user_playlist.map((playlist) => (
-                    <section className="mb-5">
+                {user_playlist.map((playlist, i) => (
+                    <section className="mb-5" key={i}>
                         <div className="w-full border-b-2 flex items-center">
-                            <h1 className=" md:text-2xl font-bold capitalize">
-                                {playlist.name}
-                            </h1>
+                            <h1 className=" sub-heading">{playlist.name}</h1>
 
                             <Popover className=" ml-auto relative">
                                 <PopoverButton

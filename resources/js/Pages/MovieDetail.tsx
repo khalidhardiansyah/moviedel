@@ -28,7 +28,7 @@ export default function MovieDetail() {
     }
     return (
         <Guest>
-            <div className="max-w-7xl mx-auto">
+            <div className="max-w-7xl mx-auto flex-1 grid grid-cols-1">
                 <iframe
                     src={server}
                     className=" aspect-video"
@@ -37,12 +37,11 @@ export default function MovieDetail() {
                     referrerPolicy="origin"
                 ></iframe>
                 <SectionInfo className="mt-5">
-                    <h1 className=" text-xl font-bold mb-3">
-                        Stream resources
-                    </h1>
+                    <h2 className=" sub-heading mb-3">Stream resources</h2>
                     <div className="grid grid-flow-row grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
                         {movie.videos.map((source: string, i: number) => (
                             <ServerButton
+                                key={i}
                                 onClick={() => setServer(source)}
                                 className={`${
                                     server === source
@@ -57,6 +56,7 @@ export default function MovieDetail() {
                         ))}
                     </div>
                 </SectionInfo>
+
                 <SectionInfo className="p-0 md:hidden my-5 md:mb-0">
                     <div className="relative">
                         <img
@@ -66,18 +66,19 @@ export default function MovieDetail() {
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                         <div className="absolute z-10 bottom-0 w-full p-5 ">
-                            <h2 className=" text-xl font-bold">
+                            <h2 className=" sub-heading">
                                 {movie.original_title}
                             </h2>
                             <p className="">{formatDate(movie.release_date)}</p>
                             <div className=" flex gap-x-3 mt-2">
-                                {movie.genres.map((genre) => (
-                                    <Capsule text={genre.name} />
+                                {movie.genres.map((genre, i) => (
+                                    <Capsule key={i} text={genre.name} />
                                 ))}
                             </div>
                         </div>
                     </div>
                 </SectionInfo>
+
                 <div className="mt-5 gap-x-4 md:grid-cols-[180px_minmax(300px,1fr)] grid md:grid-rows-1">
                     <div className="hidden md:block relative rounded-md overflow-hidden">
                         <img
@@ -87,18 +88,18 @@ export default function MovieDetail() {
                         />
                     </div>
                     <SectionInfo className="md:space-y-3">
-                        <h3 className="text-xl font-bold hidden md:block ">
+                        <h2 className=" sub-heading hidden md:block ">
                             {`${movie.original_title} (${movie.release_date})`}
-                        </h3>
+                        </h2>
                         <div>
-                            <h3 className="text-xl font-bold">Synopsis</h3>
+                            <h3 className=" sub-heading font-bold">Synopsis</h3>
                             <p>{movie.overview}</p>
                         </div>
                         <div className="mt-2 hidden md:block">
-                            <h4 className="text-xl font-bold">Genre</h4>
+                            <h4 className=" sub-heading font-bold">Genre</h4>
                             <div className=" flex gap-x-3 mt-2">
-                                {movie.genres.map((genre) => (
-                                    <Capsule text={genre.name} />
+                                {movie.genres.map((genre, i) => (
+                                    <Capsule key={i} text={genre.name} />
                                 ))}
                             </div>
                         </div>
@@ -118,17 +119,15 @@ export default function MovieDetail() {
                         </button>
                     </SectionInfo>
                 </div>
-                <div>
-                    <SectionInfo className=" mt-5">
-                        <h5 className=" text-xl font-bold mb-5">
-                            Movie Recommendation
-                        </h5>
-                        <SliderMovieList list={recommendation_list} />
-                    </SectionInfo>
-                </div>
+                <SectionInfo className=" mt-5">
+                    <h2 className=" sub-heading">Movie Recommendation</h2>
+                    <SliderMovieList
+                        list={recommendation_list}
+                        classname=" mt-3"
+                    />
+                </SectionInfo>
             </div>
 
-            {/* modal */}
             <Modal show={open} onClose={() => setOpen(false)} maxWidth="sm">
                 <div className=" w-full bg-gray-50 px-5 py-4 space-y-4">
                     {modeForm === "add_to_playlist" ? (

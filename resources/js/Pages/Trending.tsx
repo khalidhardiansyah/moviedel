@@ -1,5 +1,6 @@
 import MovieCard from "@/Components/MovieCard";
 import Guest from "@/Layouts/GuestLayout";
+import ListLayout from "@/Layouts/ListLayout";
 import { router, usePage } from "@inertiajs/react";
 import React from "react";
 
@@ -8,13 +9,14 @@ function Trending() {
     return (
         <Guest>
             <div className=" mt-4 max-w-7xl mx-auto ">
-                <h1 className=" mb-4 text-center font-semibold sm:text-xl">
+                <h1 className=" mb-4 text-center sub-heading">
                     Trending movies
                 </h1>
 
-                <div className="grid grid-cols-2 grid-flow-row gap-x-10 gap-y-4 md:grid-cols-4 lg:grid-cols-6">
-                    {movies.map((movie) => (
+                <ListLayout>
+                    {movies.map((movie, i) => (
                         <MovieCard
+                            key={i}
                             poster={movie.poster}
                             title={movie.original_title}
                             release_date={movie.release_date}
@@ -23,7 +25,7 @@ function Trending() {
                             }
                         />
                     ))}
-                </div>
+                </ListLayout>
             </div>
         </Guest>
     );

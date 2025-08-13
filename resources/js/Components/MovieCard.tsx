@@ -12,7 +12,7 @@ export default function MovieCard<Movie>({
     onWatch,
 }: MovieCard) {
     return (
-        <div className="relative overflow-hidden rounded-md group min-w-28 max-w-44 max-h-64">
+        <div className="relative overflow-hidden rounded-md group min-w-28 max-w-48 max-h-64">
             <img src={poster} className="w-full h-full object-cover" />
             <div className="absolute inset-0 z-10 transition-opacity duration-300  bg-zinc-600/45 opacity-0 group-hover:opacity-100 group-hover:backdrop-blur-sm  flex items-end ">
                 <div className=" w-full p-3 z-20 ">

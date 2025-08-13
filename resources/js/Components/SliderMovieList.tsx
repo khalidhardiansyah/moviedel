@@ -21,18 +21,21 @@ export default function SliderMovieList({ list, classname = "" }: List) {
                 scrollbar={{ draggable: true, hide: true }}
                 slidesPerView={3}
                 breakpoints={{
-                    768: {
+                    500: {
                         slidesPerView: 4,
                     },
-                    1024: {
-                        slidesPerView: 6,
+                    700: {
+                        slidesPerView: 5,
+                    },
+                    900: {
+                        slidesPerView: 7,
                     },
                 }}
             >
-                {list.map((movie) => (
-                    <SwiperSlide>
+                {list.map((movie, i) => (
+                    <SwiperSlide key={i}>
                         <MovieCard
-                            key={movie.id}
+                            key={i}
                             poster={movie.poster}
                             title={movie.original_title}
                             release_date={movie.release_date}

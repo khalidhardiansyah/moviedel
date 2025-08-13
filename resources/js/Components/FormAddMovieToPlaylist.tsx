@@ -31,12 +31,10 @@ function FormAddMovieToPlaylist() {
         router.post("/save-to-playlist", data);
     }
     return (
-        <form onSubmit={handleSubmit} method="post">
+        <form onSubmit={handleSubmit} method="post" className="text-slate-900">
             {playlists.length !== 0 ? (
                 <>
-                    <h5 className=" first-letter:capitalize font-bold text-lg">
-                        save film to...
-                    </h5>
+                    <p className=" sub-heading">save movie to...</p>
                     {Playlist.map((playlist) => (
                         <div className=" flex space-x-5 items-center">
                             <input
