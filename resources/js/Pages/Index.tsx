@@ -30,7 +30,7 @@ export default function Index() {
         <Guest>
             <div className="flex-1">
                 <div className=" mt-24">
-                    <div className="bg-zinc-600/60 text-gray-100 shadow-sm rounded-md min-w-80 sm:max-w-xl sm:mx-auto overflow-hidden px-4 py-6 ">
+                    <div className="bg-secondary  text-white shadow-sm rounded-md min-w-80 sm:max-w-xl sm:mx-auto overflow-hidden px-4 py-6 ">
                         <form
                             onSubmit={handleSubmit}
                             className=" flex flex-col space-y-2"
@@ -64,7 +64,7 @@ export default function Index() {
                     )}
                     {movies && (
                         <>
-                            <h1 className=" mb-4 sub-heading text-center">
+                            <h1 className=" mb-4 heading text-center">
                                 Search Result
                             </h1>
 

@@ -9,9 +9,7 @@ function Trending() {
     return (
         <Guest>
             <div className=" mt-4 max-w-7xl mx-auto ">
-                <h1 className=" mb-4 text-center sub-heading">
-                    Trending movies
-                </h1>
+                <h1 className=" mb-4 text-center heading">Trending movies</h1>
 
                 <ListLayout>
                     {movies.map((movie, i) => (

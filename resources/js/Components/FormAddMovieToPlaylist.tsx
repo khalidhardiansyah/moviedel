@@ -1,5 +1,6 @@
 import { router, useForm, usePage } from "@inertiajs/react";
 import { SyntheticEvent, useState } from "react";
+import PrimaryButton from "./PrimaryButton";
 
 function FormAddMovieToPlaylist() {
     const { movie, playlists } = usePage().props;
@@ -31,12 +32,12 @@ function FormAddMovieToPlaylist() {
         router.post("/save-to-playlist", data);
     }
     return (
-        <form onSubmit={handleSubmit} method="post" className="text-slate-900">
+        <form onSubmit={handleSubmit} method="post" className="text-white">
             {playlists.length !== 0 ? (
                 <>
                     <p className=" sub-heading">save movie to...</p>
                     {Playlist.map((playlist) => (
-                        <div className=" flex space-x-5 items-center">
+                        <div className=" flex space-x-5 items-center my-2">
                             <input
                                 type="checkbox"
                                 name="playlist_id"
@@ -50,12 +51,7 @@ function FormAddMovieToPlaylist() {
                             </label>
                         </div>
                     ))}
-                    <button
-                        className="bg-blue-300 rounded-md py-3 w-full mt-4"
-                        type="submit"
-                    >
-                        Save
-                    </button>
+                    <PrimaryButton className=" w-full">Save</PrimaryButton>
                 </>
             ) : (
                 <span>You ain't got no playlist</span>

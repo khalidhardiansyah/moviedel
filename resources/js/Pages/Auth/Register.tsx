@@ -1,3 +1,4 @@
+import BaseLink from "@/Components/BaseLink";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
@@ -28,11 +29,11 @@ export default function Register() {
             <div className="flex-1 grid place-items-center">
                 <form
                     onSubmit={submit}
-                    className="bg-gray-50 p-5 rounded-md max text-gray-700 h-fit min-w-96"
+                    className="bg-secondary p-5 rounded-md max h-fit min-w-96"
                 >
-                    <div className="text-center">
-                        <h1>Create Your Account</h1>
-                        <h2>Join us and start your stream today.</h2>
+                    <div className="text-center mb-4">
+                        <h1 className=" sub-heading">Create Your Account</h1>
+                        <p>Join us and start your stream today.</p>
                     </div>
                     <div>
                         <InputLabel htmlFor="name" value="Full Name" />
@@ -42,7 +43,7 @@ export default function Register() {
                             name="name"
                             placeholder="John Doe"
                             value={data.name}
-                            className="mt-1 block w-full text-gray-700"
+                            className="mt-1 block w-full "
                             autoComplete="name"
                             isFocused={true}
                             onChange={(e) => setData("name", e.target.value)}
@@ -61,7 +62,7 @@ export default function Register() {
                             name="email"
                             value={data.email}
                             placeholder="you@example.com"
-                            className="mt-1 block w-full text-gray-700"
+                            className="mt-1 block w-full "
                             autoComplete="username"
                             onChange={(e) => setData("email", e.target.value)}
                             required
@@ -78,7 +79,7 @@ export default function Register() {
                             type="password"
                             name="password"
                             value={data.password}
-                            className="mt-1 block w-full text-gray-700"
+                            className="mt-1 block w-full "
                             autoComplete="new-password"
                             onChange={(e) =>
                                 setData("password", e.target.value)
@@ -103,7 +104,7 @@ export default function Register() {
                             type="password"
                             name="password_confirmation"
                             value={data.password_confirmation}
-                            className="mt-1 block w-full text-gray-700"
+                            className="mt-1 block w-full "
                             autoComplete="new-password"
                             onChange={(e) =>
                                 setData("password_confirmation", e.target.value)
@@ -118,12 +119,9 @@ export default function Register() {
                     </div>
 
                     <div className="mt-4 flex items-center justify-end">
-                        <Link
-                            href={route("login")}
-                            className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                        >
+                        <BaseLink href={route("login")}>
                             Already registered?
-                        </Link>
+                        </BaseLink>
 
                         <PrimaryButton className="ms-4" disabled={processing}>
                             Register

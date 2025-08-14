@@ -74,13 +74,16 @@ export default function Dashboard() {
             }
         >
             <Head title="Playlist" />
-            <div className="mt-5 ">
+            <div className="">
                 {user_playlist.map((playlist, i) => (
-                    <section className="mb-5" key={i}>
-                        <div className="w-full border-b-2 flex items-center">
+                    <section
+                        className="mb-5 bg-secondary py-4 px-5 rounded-md shadow"
+                        key={i}
+                    >
+                        <div className="w-full border-b-1 border-gray-100/55 justify-between flex items-center">
                             <h1 className=" sub-heading">{playlist.name}</h1>
 
-                            <Popover className=" ml-auto relative">
+                            <Popover className=" relative">
                                 <PopoverButton
                                     onClick={() => openModal(playlist.id)}
                                 >
@@ -89,7 +92,7 @@ export default function Dashboard() {
 
                                 <PopoverPanel
                                     anchor="bottom end"
-                                    className="flex flex-col z-30 bg-gray-50 px-5 py-4 rounded-lg shadow border"
+                                    className="flex flex-col z-30 bg-primary  px-5 py-4 rounded-lg shadow border"
                                 >
                                     <h2 className="first-letter:capitalize font-bold text-lg">
                                         Share playlist
@@ -113,7 +116,7 @@ export default function Dashboard() {
                                             loading ||
                                             playlist.is_public === false
                                         }
-                                        className="hover:bg-sky-500/20 hover:border-blue-600 mt-2"
+                                        className=" mt-2"
                                         onClick={copyToClipboard}
                                     >
                                         <Link05Icon

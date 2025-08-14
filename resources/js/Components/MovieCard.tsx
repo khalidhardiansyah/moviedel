@@ -1,4 +1,5 @@
 import { PlayIcon } from "hugeicons-react";
+import DangerButton from "./DangerButton";
 interface MovieCard {
     poster: string;
     title: string;
@@ -15,32 +16,17 @@ export default function MovieCard<Movie>({
         <div className="relative overflow-hidden rounded-md group min-w-28 max-w-48 max-h-64">
             <img src={poster} className="w-full h-full object-cover" />
             <div className="absolute inset-0 z-10 transition-opacity duration-300  bg-zinc-600/45 opacity-0 group-hover:opacity-100 group-hover:backdrop-blur-sm  flex items-end ">
-                <div className=" w-full p-3 z-20 ">
+                <div className=" w-full p-3 z-20 flex flex-col translate-y-50 group-hover:translate-y-0 transition-all ease-in-out duration-300 delay-75">
                     <h1 className=" text-sm font-bold sm:text-lg whitespace-normal">
                         {title}
                     </h1>
                     <span className=" text-xs sm:text-sm block md:mb-1">
                         {release_date}
                     </span>
-                    <button
-                        type="button"
-                        className="transition-all text-sm duration-100 rounded-lg w-full min-h-7 sm:min-h-9 max-h-10 flex items-center gap-x-2 justify-center  bg-red-500 hover:bg-red-600 cursor-pointer"
-                        onClick={onWatch}
-                    >
-                        <PlayIcon
-                            size={19}
-                            color="white"
-                            className="sm:hidden"
-                        />
-                        <PlayIcon
-                            size={23}
-                            color="white"
-                            className="hidden sm:block"
-                        />
-                        <span className=" text-sm sm:max-2xl:text-base tracking-wider font-medium">
-                            Watch
-                        </span>
-                    </button>
+                    <DangerButton onClick={onWatch} className="">
+                        <PlayIcon color="white" className=" text-inherit" />
+                        <span className=" block">watch</span>
+                    </DangerButton>
                 </div>
             </div>
         </div>

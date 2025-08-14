@@ -29,14 +29,14 @@ export default function ForgotPassword({ status }: { status?: string }) {
             <div className="flex-1">
                 <form
                     onSubmit={submit}
-                    className="bg-gray-50 p-5 rounded-md max text-gray-700 h-fit max-w-96 mx-auto"
+                    className=" bg-secondary p-5 rounded-md max  h-fit max-w-96 mx-auto"
                 >
                     <div className="text-center">
-                        <h1>Forgot Your Password?</h1>
-                        <h2>
+                        <h1 className=" sub-heading">Forgot Your Password?</h1>
+                        <p>
                             No worries. Enter your email address, and we’ll send
                             you a link to reset your password.
-                        </h2>
+                        </p>
                     </div>
                     <TextInput
                         id="email"
@@ -44,18 +44,19 @@ export default function ForgotPassword({ status }: { status?: string }) {
                         name="email"
                         value={data.email}
                         placeholder="you@example.com"
-                        className="mt-1 block w-full text-gray-700"
+                        className="mt-1 block w-full "
                         isFocused={true}
                         onChange={(e) => setData("email", e.target.value)}
                     />
 
                     <InputError message={errors.email} className="mt-2" />
 
-                    <div className="mt-4 flex items-center justify-end">
-                        <PrimaryButton className="ms-4" disabled={processing}>
-                            Email Password Reset Link
-                        </PrimaryButton>
-                    </div>
+                    <PrimaryButton
+                        className="mt-4 w-full"
+                        disabled={processing}
+                    >
+                        Email Password Reset Link
+                    </PrimaryButton>
                 </form>
             </div>
         </GuestLayout>

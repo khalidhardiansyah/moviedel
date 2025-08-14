@@ -15,7 +15,7 @@ function ProfileDropdown() {
                         </button>
                     </Dropdown.Trigger>
 
-                    <Dropdown.Content contentClasses="bg-primary/65 ring-0">
+                    <Dropdown.Content contentClasses="bg-secondary ring-0">
                         <Dropdown.Link href={route("profile.edit")}>
                             Profile
                         </Dropdown.Link>

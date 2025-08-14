@@ -9,6 +9,7 @@ import { ChangeEvent, SyntheticEvent, useState } from "react";
 import FormCreatePlaylist from "@/Components/FormCreatePlaylist";
 import FormAddMovieToPlaylist from "@/Components/FormAddMovieToPlaylist";
 import SliderMovieList from "@/Components/SliderMovieList";
+import SecondaryButton from "@/Components/SecondaryButton";
 
 export type status = "add_to_playlist" | "create_playlist";
 
@@ -129,7 +130,7 @@ export default function MovieDetail() {
             </div>
 
             <Modal show={open} onClose={() => setOpen(false)} maxWidth="sm">
-                <div className=" w-full bg-gray-50 px-5 py-4 space-y-4">
+                <div className=" w-full bg-[#202228] px-5 py-4">
                     {modeForm === "add_to_playlist" ? (
                         <FormAddMovieToPlaylist />
                     ) : (
@@ -137,22 +138,22 @@ export default function MovieDetail() {
                     )}
 
                     {modeForm === "add_to_playlist" ? (
-                        <button
-                            className=" bg-gray-300 rounded-md py-3 w-full"
+                        <SecondaryButton
+                            className=" w-full mt-2"
                             onClick={() => setModeForm("create_playlist")}
                         >
-                            + new playlist
-                        </button>
+                            New playlist
+                        </SecondaryButton>
                     ) : (
-                        <button
-                            className=" bg-gray-300 rounded-md py-3 w-full"
+                        <SecondaryButton
+                            className=" w-full mt-2"
                             onClick={() => {
                                 setOpen(false);
                                 setModeForm("add_to_playlist");
                             }}
                         >
-                            cancel
-                        </button>
+                            Cancel
+                        </SecondaryButton>
                     )}
                 </div>
             </Modal>

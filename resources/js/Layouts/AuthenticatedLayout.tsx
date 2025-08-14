@@ -19,7 +19,7 @@ export default function Authenticated({
     return (
         <div className="min-h-screen pb-6">
             <NavigationBar />
-            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-20">
+            <main className="max-w-7xl mx-auto px-6 py-4 lg:py-0 lg:px-0  mt-24">
                 {children}
             </main>
             <ToastContainer autoClose={1000} />

@@ -1,3 +1,4 @@
+import BaseLink from "@/Components/BaseLink";
 import Checkbox from "@/Components/Checkbox";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
@@ -40,11 +41,11 @@ export default function Login({
             <div className=" grid place-items-center flex-1">
                 <form
                     onSubmit={submit}
-                    className=" bg-gray-50 p-5 rounded-md max text-gray-700 h-fit"
+                    className=" bg-secondary p-5 rounded-md  text-white h-fit"
                 >
-                    <div className="text-center">
-                        <h1>Welcome Back</h1>
-                        <h2>Log in to continue your journey.</h2>
+                    <div className="text-center mb-2">
+                        <h1 className="sub-heading">Welcome Back</h1>
+                        <p>Log in to continue your journey.</p>
                     </div>
                     <div>
                         <InputLabel htmlFor="email" value="Email address" />
@@ -54,7 +55,7 @@ export default function Login({
                             name="email"
                             placeholder="you@example.com"
                             value={data.email}
-                            className="mt-1 block w-full text-gray-700"
+                            className="mt-1 block w-full "
                             autoComplete="username"
                             isFocused={true}
                             onChange={(e) => setData("email", e.target.value)}
@@ -71,7 +72,7 @@ export default function Login({
                             type="password"
                             name="password"
                             value={data.password}
-                            className="mt-1 block w-full text-gray-700"
+                            className="mt-1 block w-full "
                             autoComplete="current-password"
                             onChange={(e) =>
                                 setData("password", e.target.value)
@@ -96,7 +97,7 @@ export default function Login({
                                     )
                                 }
                             />
-                            <span className="ms-2 text-sm text-gray-600">
+                            <span className="ms-2 text-sm  text-gray-400">
                                 Remember me
                             </span>
                         </label>
@@ -111,23 +112,18 @@ export default function Login({
                                 <span className=" italic text-sm">
                                     Forgot your password?
                                 </span>
-                                <Link
-                                    href={route("password.request")}
-                                    className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                                >
+                                <BaseLink href={route("password.request")}>
                                     Reset it
-                                </Link>
+                                </BaseLink>
                             </div>
                         )}
 
                         <div className=" flex items-center gap-x-1.5 w-full">
                             <span className="italic text-sm">New here?</span>
-                            <Link
-                                href={route("register")}
-                                className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                            >
+
+                            <BaseLink href={route("register")}>
                                 Create an account
-                            </Link>
+                            </BaseLink>
                         </div>
                     </div>
                 </form>
