@@ -1,8 +1,6 @@
-import Guest from "@/Layouts/GuestLayout";
 import ListLayout from "@/Layouts/ListLayout";
 import MovieCard from "@/Components/MovieCard";
 import { usePage, router } from "@inertiajs/react";
-import React from "react";
 
 function Collection() {
     const { playlist } = usePage().props;
@@ -35,15 +33,13 @@ function Collection() {
 function SharePlaylist() {
     const { user, playlist } = usePage().props;
     return (
-        <Guest>
-            <div className=" mt-4 max-w-7xl mx-auto  flex-1">
-                <section className=" space-y-1.5">
-                    <h1 className="heading">{playlist.name}</h1>
-                    <h2 className="sub-heading">Curated by {user.name}</h2>
-                </section>
-                <Collection />
-            </div>
-        </Guest>
+        <div className=" mt-4 max-w-7xl mx-auto  flex-1">
+            <section className=" space-y-1.5">
+                <h1 className="heading">{playlist.name}</h1>
+                <h2 className="sub-heading">Curated by {user.name}</h2>
+            </section>
+            <Collection />
+        </div>
     );
 }
 

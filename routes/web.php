@@ -21,12 +21,12 @@ Route::get("/users/{user_slug}/playlists/{playlist_slug}", SharePlaylistControll
 Route::middleware('auth')->group(function () {
     Route::post('/playlist', [PlaylistController::class, 'store'])->name('playlist.store');
     Route::patch('/playlist/{id}', [PlaylistController::class, 'update'])->name('playlist.privacy');
-    Route::post('/save-to-playlist', SaveToPlaylistController::class)->name('save.store');
+    Route::post('/save-to-playlist', SaveToPlaylistController::class)->name('collection.store');
     Route::delete('/playlist/{playlist}', [PlaylistController::class, 'destroy'])->name('playlist.destroy');
 });
 
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/playlists', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('playlists');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

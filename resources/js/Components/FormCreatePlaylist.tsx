@@ -1,17 +1,31 @@
-import { router, useForm } from "@inertiajs/react";
+import { router, useForm, usePage } from "@inertiajs/react";
 import React, { SyntheticEvent } from "react";
 import InputLabel from "./InputLabel";
 import TextInput from "./TextInput";
 import PrimaryButton from "./PrimaryButton";
+import { TypeToast } from "@/types";
+import { toast } from "react-toastify";
 
 function FormCreatePlaylist() {
-    const { data, setData } = useForm<{ name: string }>({
+    const { data, setData, post, reset, processing } = useForm<{
+        name: string;
+    }>({
         name: "",
     });
 
     function submit(e: SyntheticEvent) {
         e.preventDefault();
-        router.post("/playlist", data);
+        post(route("playlist.store"), {
+            preserveScroll: true,
+            onSuccess: (page) => {
+                const typeToast =
+                    page.props.flash.response.status || ("info" as TypeToast);
+                toast[typeToast](page.props.flash.response.message);
+            },
+            onFinish: () => {
+                reset("name");
+            },
+        });
     }
 
     return (
@@ -29,7 +43,9 @@ function FormCreatePlaylist() {
                 isFocused={true}
                 onChange={(e) => setData("name", e.target.value)}
             />
-            <PrimaryButton className=" mt-2 w-full">Save</PrimaryButton>
+            <PrimaryButton className=" mt-2 w-full" disabled={processing}>
+                Save
+            </PrimaryButton>
         </form>
     );
 }

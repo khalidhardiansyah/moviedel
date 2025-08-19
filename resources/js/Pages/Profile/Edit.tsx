@@ -10,27 +10,25 @@ export default function Edit({
     status,
 }: PageProps<{ mustVerifyEmail: boolean; status?: string }>) {
     return (
-        <AuthenticatedLayout>
-            <div className="py-12">
-                <div className="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8 lg:flex lg:justify-center lg:flex-col">
-                    <h1 className="heading text-center">Account</h1>
-                    <div className=" p-4  sm:p-8 lg:self-center lg:min-w-2/4 bg-secondary rounded-md shadow">
-                        <UpdateProfileInformationForm
-                            mustVerifyEmail={mustVerifyEmail}
-                            status={status}
-                            className="max-w-xl"
-                        />
-                    </div>
+        <div className="py-12">
+            <div className="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8 lg:flex lg:justify-center lg:flex-col">
+                <h1 className="heading text-center">Account</h1>
+                <div className=" p-4  sm:p-8 lg:self-center lg:min-w-2/4 bg-secondary rounded-md shadow">
+                    <UpdateProfileInformationForm
+                        mustVerifyEmail={mustVerifyEmail}
+                        status={status}
+                        className="max-w-xl"
+                    />
+                </div>
 
-                    <div className=" p-4  sm:p-8 lg:self-center lg:min-w-2/4 bg-secondary rounded-md shadow">
-                        <UpdatePasswordForm className="max-w-xl" />
-                    </div>
+                <div className=" p-4  sm:p-8 lg:self-center lg:min-w-2/4 bg-secondary rounded-md shadow">
+                    <UpdatePasswordForm className="max-w-xl" />
+                </div>
 
-                    <div className=" p-4  sm:p-8 lg:self-center lg:min-w-2/4 bg-secondary rounded-md shadow">
-                        <DeleteUserForm className="max-w-xl" />
-                    </div>
+                <div className=" p-4  sm:p-8 lg:self-center lg:min-w-2/4 bg-secondary rounded-md shadow">
+                    <DeleteUserForm className="max-w-xl" />
                 </div>
             </div>
-        </AuthenticatedLayout>
+        </div>
     );
 }

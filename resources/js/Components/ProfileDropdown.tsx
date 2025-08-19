@@ -5,6 +5,7 @@ import { UserIcon } from "hugeicons-react";
 
 function ProfileDropdown() {
     const { auth } = usePage().props;
+
     return (
         <div className=" relative">
             {auth.user ? (
@@ -16,10 +17,20 @@ function ProfileDropdown() {
                     </Dropdown.Trigger>
 
                     <Dropdown.Content contentClasses="bg-secondary ring-0">
-                        <Dropdown.Link href={route("profile.edit")}>
+                        <Dropdown.Link
+                            active={route().current("profile.edit")}
+                            href={route("profile.edit")}
+                        >
                             Profile
                         </Dropdown.Link>
                         <Dropdown.Link
+                            active={route().current("playlists")}
+                            href={route("playlists")}
+                        >
+                            Playlists
+                        </Dropdown.Link>
+                        <Dropdown.Link
+                            active={route().current("logout")}
                             href={route("logout")}
                             method="post"
                             as="button"

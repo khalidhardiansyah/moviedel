@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Str;
 
 class playlist extends Model
 {
@@ -13,8 +15,8 @@ class playlist extends Model
 
     protected $fillable = [
         'name',
-        'name_slug',
         'is_public',
+        'name_slug'
     ];
 
     protected function casts()
@@ -22,6 +24,12 @@ class playlist extends Model
         return ['is_public' => 'boolean'];
     }
 
+    protected static function booted(): void
+    {
+        static::creating(function (self $playlist) {
+            $playlist->name_slug = Str::slug($playlist->name . ' ' . $playlist->user_id);
+        });
+    }
 
     function collections(): BelongsToMany
     {

@@ -15,7 +15,7 @@ export default function SliderMovieList({ list, classname = "" }: List) {
             <Swiper
                 speed={500}
                 modules={[Scrollbar]}
-                spaceBetween={12}
+                spaceBetween={15}
                 cssMode={true}
                 grabCursor={true}
                 scrollbar={{ draggable: true, hide: true }}
@@ -39,9 +39,7 @@ export default function SliderMovieList({ list, classname = "" }: List) {
                             poster={movie.poster}
                             title={movie.original_title}
                             release_date={movie.release_date}
-                            onWatch={() =>
-                                router.get(`/movie/detail/${movie.id}`)
-                            }
+                            onWatch={() => router.get(movie.url)}
                         />
                     </SwiperSlide>
                 ))}

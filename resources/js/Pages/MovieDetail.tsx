@@ -2,14 +2,15 @@ import Capsule from "@/Components/Capsule";
 import Modal from "@/Components/Modal";
 import SectionInfo from "@/Components/SectionInfo";
 import ServerButton from "@/Components/ServerButton";
-import Guest from "@/Layouts/GuestLayout";
 import { Bookmark02Icon } from "hugeicons-react";
-import { router, useForm, usePage } from "@inertiajs/react";
-import { ChangeEvent, SyntheticEvent, useState } from "react";
+import { Head, router, useForm, usePage } from "@inertiajs/react";
+import { useState } from "react";
 import FormCreatePlaylist from "@/Components/FormCreatePlaylist";
 import FormAddMovieToPlaylist from "@/Components/FormAddMovieToPlaylist";
 import SliderMovieList from "@/Components/SliderMovieList";
 import SecondaryButton from "@/Components/SecondaryButton";
+import PrimaryButton from "@/Components/PrimaryButton";
+import { formatDate } from "@/helpers/helper";
 
 export type status = "add_to_playlist" | "create_playlist";
 
@@ -19,16 +20,9 @@ export default function MovieDetail() {
     const [server, setServer] = useState(movie.videos[0]);
     const [modeForm, setModeForm] = useState<status>("add_to_playlist");
 
-    function formatDate(tanggal: string) {
-        let date = new Date(tanggal);
-        return new Intl.DateTimeFormat("id-ID", {
-            day: "2-digit",
-            month: "long",
-            year: "numeric",
-        }).format(date);
-    }
     return (
-        <Guest>
+        <>
+            <Head title={movie.original_title} />
             <div className="max-w-7xl mx-auto flex-1 grid grid-cols-1">
                 <iframe
                     src={server}
@@ -90,7 +84,9 @@ export default function MovieDetail() {
                     </div>
                     <SectionInfo className="md:space-y-3">
                         <h2 className=" sub-heading hidden md:block ">
-                            {`${movie.original_title} (${movie.release_date})`}
+                            {`${movie.original_title} (${formatDate(
+                                movie.release_date
+                            )})`}
                         </h2>
                         <div>
                             <h3 className=" sub-heading font-bold">Synopsis</h3>
@@ -105,19 +101,19 @@ export default function MovieDetail() {
                             </div>
                         </div>
 
-                        <button
+                        <PrimaryButton
+                            className=" mt-3 md:mt-0"
+                            type="submit"
                             onClick={() =>
                                 auth.user ? setOpen(true) : router.get("/login")
                             }
-                            className=" mt-3 bg-slate-700/80 flex items-center px-5 h-10 rounded-md text-slate-400 group hover:text-white transition-all duration-150 hover:bg-slate-700/100 hover:scale-105 gap-x-2"
-                            type="submit"
                         >
                             <Bookmark02Icon
                                 size={24}
                                 className=" group-hover:fill-white transition-all duration-150 "
                             />
                             Save to playlist
-                        </button>
+                        </PrimaryButton>
                     </SectionInfo>
                 </div>
                 <SectionInfo className=" mt-5">
@@ -137,26 +133,25 @@ export default function MovieDetail() {
                         <FormCreatePlaylist />
                     )}
 
-                    {modeForm === "add_to_playlist" ? (
-                        <SecondaryButton
-                            className=" w-full mt-2"
-                            onClick={() => setModeForm("create_playlist")}
-                        >
-                            New playlist
-                        </SecondaryButton>
-                    ) : (
-                        <SecondaryButton
-                            className=" w-full mt-2"
-                            onClick={() => {
-                                setOpen(false);
-                                setModeForm("add_to_playlist");
-                            }}
-                        >
-                            Cancel
-                        </SecondaryButton>
-                    )}
+                    <SecondaryButton
+                        className=" w-full mt-2"
+                        onClick={
+                            modeForm === "add_to_playlist"
+                                ? () => setModeForm("create_playlist")
+                                : () => {
+                                      setOpen(false);
+                                      setTimeout(() => {
+                                          setModeForm("add_to_playlist");
+                                      }, 100);
+                                  }
+                        }
+                    >
+                        {modeForm === "add_to_playlist"
+                            ? "New playlist"
+                            : "Cancel"}
+                    </SecondaryButton>
                 </div>
             </Modal>
-        </Guest>
+        </>
     );
 }

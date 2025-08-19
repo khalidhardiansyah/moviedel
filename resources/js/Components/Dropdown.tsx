@@ -108,14 +108,16 @@ const Content = ({
 const DropdownLink = ({
     className = "",
     children,
+    active = false,
     ...props
-}: InertiaLinkProps) => {
+}: InertiaLinkProps & { active: Boolean }) => {
     return (
         <Link
             {...props}
             className={
-                "block text-left text-slate-200/80 bg-primary/30 backdrop-blur-xs w-full px-4 py-3 menu-item  transition-all  duration-150 ease-in-out focus:outline-none hover:text-white leading-5 hover:bg-slate-400/15 cursor-pointer" +
-                className
+                `block text-left text-slate-200/80 bg-primary/30 backdrop-blur-xs w-full px-4 py-3 menu-item  transition-all  duration-150 ease-in-out focus:outline-none hover:text-white leading-5 hover:bg-slate-400/15 cursor-pointer  ${
+                    active ? "bg-slate-400/15 text-white" : ""
+                }` + className
             }
         >
             {children}

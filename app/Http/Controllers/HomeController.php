@@ -31,7 +31,7 @@ class HomeController extends Controller
             "page" => 1
         ]);
         if (empty($found['results'])) {
-            return redirect()->route('movies.create', ['q' => $query])->with(FlashMessage::response('not found'));
+            return redirect()->route('movies.create', ['q' => $query])->with(flashMessage('not found'));
         }
         $result = array_filter($found['results'], fn($type) => !empty($type['release_date']) && !empty($type['poster_path']));
         $result = collect(array_values($result))->map(fn($movie) => [

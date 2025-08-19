@@ -24,6 +24,7 @@ export interface Playlist {
     name_slug: string;
     url: string;
     is_public?: boolean;
+    checked?: boolean;
 }
 
 export interface SharePlaylist extends Playlist {

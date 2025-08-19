@@ -1,12 +1,14 @@
 import { router, useForm, usePage } from "@inertiajs/react";
 import { SyntheticEvent, useState } from "react";
 import PrimaryButton from "./PrimaryButton";
+import { TypeToast } from "@/types";
+import { toast } from "react-toastify";
 
 function FormAddMovieToPlaylist() {
     const { movie, playlists } = usePage().props;
     const [Playlist, setPlaylist] = useState(playlists);
 
-    const { data, setData, processing, errors } = useForm({
+    const { data, setData, processing, errors, post } = useForm({
         id: movie.id,
         title: movie.title,
         original_title: movie.original_title,
@@ -28,16 +30,25 @@ function FormAddMovieToPlaylist() {
     };
     function handleSubmit(e: SyntheticEvent) {
         e.preventDefault();
-
-        router.post("/save-to-playlist", data);
+        post(route("collection.store"), {
+            preserveScroll: true,
+            onSuccess: (page) => {
+                const typeToast =
+                    page.props.flash.response.status || ("info" as TypeToast);
+                toast[typeToast](page.props.flash.response.message);
+            },
+        });
     }
     return (
         <form onSubmit={handleSubmit} method="post" className="text-white">
             {playlists.length !== 0 ? (
                 <>
                     <p className=" sub-heading">save movie to...</p>
-                    {Playlist.map((playlist) => (
-                        <div className=" flex space-x-5 items-center my-2">
+                    {Playlist.map((playlist, i) => (
+                        <div
+                            className=" flex space-x-5 items-center my-2"
+                            key={i}
+                        >
                             <input
                                 type="checkbox"
                                 name="playlist_id"
@@ -51,7 +62,9 @@ function FormAddMovieToPlaylist() {
                             </label>
                         </div>
                     ))}
-                    <PrimaryButton className=" w-full">Save</PrimaryButton>
+                    <PrimaryButton className=" w-full" disabled={processing}>
+                        Save
+                    </PrimaryButton>
                 </>
             ) : (
                 <span>You ain't got no playlist</span>

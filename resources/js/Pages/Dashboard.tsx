@@ -66,82 +66,71 @@ export default function Dashboard() {
         });
     }
     return (
-        <AuthenticatedLayout
-            header={
-                <h2 className="text-xl font-semibold leading-tight  text-slate-100">
-                    My Playlist
-                </h2>
-            }
-        >
+        <div className=" max-w-7xl mx-auto">
             <Head title="Playlist" />
-            <div className="">
-                {user_playlist.map((playlist, i) => (
-                    <section
-                        className="mb-5 bg-secondary py-4 px-5 rounded-md shadow"
-                        key={i}
-                    >
-                        <div className="w-full border-b-1 border-gray-100/55 justify-between flex items-center">
-                            <h1 className=" sub-heading">{playlist.name}</h1>
+            {user_playlist.map((playlist, i) => (
+                <section
+                    className="mb-5 bg-secondary py-4 px-5 rounded-md shadow"
+                    key={i}
+                >
+                    <div className="w-full border-b-1 border-gray-100/55 justify-between flex items-center">
+                        <h1 className=" sub-heading">{playlist.name}</h1>
 
-                            <Popover className=" relative">
-                                <PopoverButton
-                                    onClick={() => openModal(playlist.id)}
+                        <Popover className=" relative">
+                            <PopoverButton
+                                className=" cursor-pointer"
+                                onClick={() => openModal(playlist.id)}
+                            >
+                                <MoreVerticalCircle01Icon />
+                            </PopoverButton>
+
+                            <PopoverPanel
+                                anchor="bottom end"
+                                className="flex flex-col z-10 bg-primary  px-5 py-4 rounded-lg shadow border"
+                            >
+                                <h2 className="first-letter:capitalize font-bold text-lg">
+                                    Share playlist
+                                    <span className=" capitalize">
+                                        {" "}
+                                        "{playlist.name}"
+                                    </span>
+                                </h2>
+                                <div className="mt-2 flex items-center justify-between">
+                                    <InputLabel
+                                        value="Share playlist"
+                                        className=" capitalize"
+                                    />
+                                    <ToggleInput
+                                        checkedValue={playlist.is_public}
+                                        onSwitch={switchToggle}
+                                    />
+                                </div>
+                                <SecondaryButton
+                                    disabled={
+                                        loading || playlist.is_public === false
+                                    }
+                                    className=" mt-2"
+                                    onClick={copyToClipboard}
                                 >
-                                    <MoreVerticalCircle01Icon />
-                                </PopoverButton>
+                                    <Link05Icon size={20} className=" mr-1.5" />
+                                    Copy link
+                                </SecondaryButton>
+                            </PopoverPanel>
+                        </Popover>
+                    </div>
 
-                                <PopoverPanel
-                                    anchor="bottom end"
-                                    className="flex flex-col z-30 bg-primary  px-5 py-4 rounded-lg shadow border"
-                                >
-                                    <h2 className="first-letter:capitalize font-bold text-lg">
-                                        Share playlist
-                                        <span className=" capitalize">
-                                            {" "}
-                                            "{playlist.name}"
-                                        </span>
-                                    </h2>
-                                    <div className="mt-2 flex items-center justify-between">
-                                        <InputLabel
-                                            value="Share playlist"
-                                            className=" capitalize"
-                                        />
-                                        <ToggleInput
-                                            checkedValue={playlist.is_public}
-                                            onSwitch={switchToggle}
-                                        />
-                                    </div>
-                                    <SecondaryButton
-                                        disabled={
-                                            loading ||
-                                            playlist.is_public === false
-                                        }
-                                        className=" mt-2"
-                                        onClick={copyToClipboard}
-                                    >
-                                        <Link05Icon
-                                            size={20}
-                                            className=" mr-1.5"
-                                        />
-                                        Copy link
-                                    </SecondaryButton>
-                                </PopoverPanel>
-                            </Popover>
-                        </div>
-
-                        {playlist.collections.length > 0 ? (
-                            <SliderMovieList
-                                list={playlist.collections}
-                                classname=" mt-3"
-                            />
-                        ) : (
-                            <h2 className=" capitalize md:text-xl mt-3">
-                                No saved movie
-                            </h2>
-                        )}
-                    </section>
-                ))}
-            </div>
-        </AuthenticatedLayout>
+                    {playlist.collections.length > 0 ? (
+                        <SliderMovieList
+                            list={playlist.collections}
+                            classname=" mt-3"
+                        />
+                    ) : (
+                        <h2 className=" capitalize md:text-xl mt-3">
+                            No saved movie
+                        </h2>
+                    )}
+                </section>
+            ))}
+        </div>
     );
 }

@@ -60,6 +60,6 @@ color utility to any element that depends on these defaults.
 
     button {
         font-weight: 700;
-        @apply text-base/relaxed tracking-wide;
+        @apply text-sm sm:text-base/relaxed tracking-wide;
     }
 }
