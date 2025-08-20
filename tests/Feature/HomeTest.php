@@ -33,8 +33,12 @@ class HomeTest extends TestCase
     }
     public function test_home_page_if_search_movie_and_cant_find_it(): void
     {
-        $this->get('/search?q=film ukm mahasiswa pemenang venice film festival ')
-            ->assertFound()
-            ->assertSessionHas('response.message', 'not found');
+        $this
+            ->followingRedirects()
+            ->get(route('findMovie', [
+                'q'   => "film ukm mahasiswa menang venice festival"
+            ]))
+            ->assertOk()
+            ->assertSee('not found');
     }
 }

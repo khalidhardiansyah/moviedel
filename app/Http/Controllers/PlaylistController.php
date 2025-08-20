@@ -13,6 +13,9 @@ class PlaylistController extends Controller
 {
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required|string|max:255'
+        ]);
         try {
             $user = auth()->user();
             $playlist = $user->playlists()->create([
@@ -28,6 +31,9 @@ class PlaylistController extends Controller
     public function update(Request $request, $id)
     {
 
+        $request->validate([
+            'is_public' => 'required|number'
+        ]);
         try {
             $user = auth()->user();
             $playlist = $user->playlists()->find($id);
