@@ -17,8 +17,15 @@ export type status = "add_to_playlist" | "create_playlist";
 export default function MovieDetail() {
     const { movie, recommendation_list, playlists, auth } = usePage().props;
     const [open, setOpen] = useState(false);
-    const [server, setServer] = useState(movie.videos[0]);
+    const [server, setServer] = useState(movie.videos[4]);
     const [modeForm, setModeForm] = useState<status>("add_to_playlist");
+
+    const handleClose = () => {
+        setOpen(false);
+        setTimeout(() => {
+            setModeForm("add_to_playlist");
+        }, 100);
+    };
 
     return (
         <>
@@ -126,7 +133,7 @@ export default function MovieDetail() {
             </div>
 
             <Modal show={open} onClose={() => setOpen(false)} maxWidth="sm">
-                <div className=" w-full bg-[#202228] px-5 py-4">
+                <div className=" w-full bg-[#202228] relative px-5 py-4">
                     {modeForm === "add_to_playlist" ? (
                         <FormAddMovieToPlaylist />
                     ) : (
@@ -138,12 +145,7 @@ export default function MovieDetail() {
                         onClick={
                             modeForm === "add_to_playlist"
                                 ? () => setModeForm("create_playlist")
-                                : () => {
-                                      setOpen(false);
-                                      setTimeout(() => {
-                                          setModeForm("add_to_playlist");
-                                      }, 100);
-                                  }
+                                : () => handleClose()
                         }
                     >
                         {modeForm === "add_to_playlist"

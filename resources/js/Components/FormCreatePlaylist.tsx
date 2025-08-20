@@ -5,9 +5,11 @@ import TextInput from "./TextInput";
 import PrimaryButton from "./PrimaryButton";
 import { TypeToast } from "@/types";
 import { toast } from "react-toastify";
+import InputError from "./InputError";
+import { Cancel01Icon } from "hugeicons-react";
 
 function FormCreatePlaylist() {
-    const { data, setData, post, reset, processing } = useForm<{
+    const { data, setData, post, reset, processing, errors } = useForm<{
         name: string;
     }>({
         name: "",
@@ -31,6 +33,7 @@ function FormCreatePlaylist() {
     return (
         <form onSubmit={submit} className="text-white">
             <p className="sub-heading">new playlist</p>
+
             <InputLabel htmlFor="Playlist" value="Playlist name" />
             <TextInput
                 id="Playlist"
@@ -43,6 +46,7 @@ function FormCreatePlaylist() {
                 isFocused={true}
                 onChange={(e) => setData("name", e.target.value)}
             />
+            <InputError message={errors.name} />
             <PrimaryButton className=" mt-2 w-full" disabled={processing}>
                 Save
             </PrimaryButton>

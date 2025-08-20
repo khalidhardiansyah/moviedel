@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\playlist;
-use App\Models\User;
 use FlashStatus;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 
 class PlaylistController extends Controller
