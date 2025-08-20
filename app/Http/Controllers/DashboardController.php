@@ -22,7 +22,6 @@ class DashboardController extends Controller
             $collection['release_date'] = $collection['year'];
             unset($collection['year']);
         }));
-        // return response()->json($data);
 
         return Inertia::render("Dashboard", [
             "user_playlist" => $data
