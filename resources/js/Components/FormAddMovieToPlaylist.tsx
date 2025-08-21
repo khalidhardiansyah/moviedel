@@ -45,8 +45,6 @@ function FormAddMovieToPlaylist() {
         <form onSubmit={handleSubmit} method="post" className="text-white">
             {playlists.length !== 0 ? (
                 <>
-                    <p className=" sub-heading">save movie to...</p>
-
                     {Playlist.map((playlist, i) => (
                         <div className=" flex space-x-3 items-center" key={i}>
                             <input

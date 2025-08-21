@@ -28,7 +28,7 @@ class SaveToPlaylistController extends Controller
                 'playlist_id.*' => 'integer|exists:playlists,id'
             ],
             [
-                'playlist_id' => "diisi kontol"
+                'playlist_id' => "You need to choose at least one playlist."
             ]
         );
 

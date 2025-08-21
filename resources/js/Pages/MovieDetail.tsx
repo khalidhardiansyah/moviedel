@@ -2,7 +2,7 @@ import Capsule from "@/Components/Capsule";
 import Modal from "@/Components/Modal";
 import SectionInfo from "@/Components/SectionInfo";
 import ServerButton from "@/Components/ServerButton";
-import { Bookmark02Icon } from "hugeicons-react";
+import { Bookmark02Icon, Cancel01Icon } from "hugeicons-react";
 import { Head, router, useForm, usePage } from "@inertiajs/react";
 import { useState } from "react";
 import FormCreatePlaylist from "@/Components/FormCreatePlaylist";
@@ -22,9 +22,7 @@ export default function MovieDetail() {
 
     const handleClose = () => {
         setOpen(false);
-        setTimeout(() => {
-            setModeForm("add_to_playlist");
-        }, 100);
+        setModeForm("add_to_playlist");
     };
 
     return (
@@ -132,8 +130,31 @@ export default function MovieDetail() {
                 </SectionInfo>
             </div>
 
-            <Modal show={open} onClose={() => setOpen(false)} maxWidth="sm">
+            <Modal
+                show={open}
+                onClose={() => {
+                    setOpen(false);
+                }}
+                maxWidth="sm"
+                onLeave={() => setModeForm("add_to_playlist")}
+            >
                 <div className=" w-full bg-[#202228] relative px-5 py-4">
+                    <div className="flex justify-between items-center">
+                        <p className="sub-heading">
+                            {modeForm === "add_to_playlist"
+                                ? "save movie to..."
+                                : "new playlist"}
+                        </p>
+                        {modeForm === "add_to_playlist" && (
+                            <button
+                                className=" cursor-pointer"
+                                onClick={() => setOpen(false)}
+                            >
+                                <Cancel01Icon />
+                            </button>
+                        )}
+                    </div>
+
                     {modeForm === "add_to_playlist" ? (
                         <FormAddMovieToPlaylist />
                     ) : (
@@ -142,10 +163,10 @@ export default function MovieDetail() {
 
                     <SecondaryButton
                         className=" w-full mt-2"
-                        onClick={
+                        onClick={() =>
                             modeForm === "add_to_playlist"
-                                ? () => setModeForm("create_playlist")
-                                : () => handleClose()
+                                ? setModeForm("create_playlist")
+                                : setOpen(false)
                         }
                     >
                         {modeForm === "add_to_playlist"
