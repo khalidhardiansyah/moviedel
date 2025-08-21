@@ -3,6 +3,8 @@ import { SyntheticEvent, useState } from "react";
 import PrimaryButton from "./PrimaryButton";
 import { TypeToast } from "@/types";
 import { toast } from "react-toastify";
+import InputError from "./InputError";
+import { Cancel01Icon } from "hugeicons-react";
 
 function FormAddMovieToPlaylist() {
     const { movie, playlists } = usePage().props;
@@ -43,12 +45,8 @@ function FormAddMovieToPlaylist() {
         <form onSubmit={handleSubmit} method="post" className="text-white">
             {playlists.length !== 0 ? (
                 <>
-                    <p className=" sub-heading">save movie to...</p>
                     {Playlist.map((playlist, i) => (
-                        <div
-                            className=" flex space-x-5 items-center my-2"
-                            key={i}
-                        >
+                        <div className=" flex space-x-3 items-center" key={i}>
                             <input
                                 type="checkbox"
                                 name="playlist_id"
@@ -62,6 +60,10 @@ function FormAddMovieToPlaylist() {
                             </label>
                         </div>
                     ))}
+                    <InputError
+                        message={errors.playlist_id}
+                        className="my-1.5"
+                    />
                     <PrimaryButton className=" w-full" disabled={processing}>
                         Save
                     </PrimaryButton>

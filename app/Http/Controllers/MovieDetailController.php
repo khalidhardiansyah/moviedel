@@ -17,7 +17,6 @@ class MovieDetailController extends Controller
     public function __invoke($id)
     {
         $movie = (new APITmdb)->fetchData('/movie/' . $id);
-        $list_genres = (new APITmdb)->fetchData('/genre/movie/list');
         $filteredResult = Arr::only($movie, [
             'id',
             'original_title',
@@ -35,9 +34,6 @@ class MovieDetailController extends Controller
             "https://embed.su/embed/movie/{$filteredResult['id']}",
             "https://multiembed.mov/?video_id={$filteredResult['id']}&tmdb=1"
         ];
-
-
-
         $filteredResult['poster'] = $filteredResult['poster_path'] ?? null;
         unset($filteredResult["poster_path"]);
         $filteredResult['poster'] = "https://image.tmdb.org/t/p/original" . $movie['poster_path'];

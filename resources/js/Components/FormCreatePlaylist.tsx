@@ -5,13 +5,16 @@ import TextInput from "./TextInput";
 import PrimaryButton from "./PrimaryButton";
 import { TypeToast } from "@/types";
 import { toast } from "react-toastify";
+import InputError from "./InputError";
+import { Cancel01Icon } from "hugeicons-react";
 
 function FormCreatePlaylist() {
-    const { data, setData, post, reset, processing } = useForm<{
-        name: string;
-    }>({
-        name: "",
-    });
+    const { data, setData, post, reset, processing, errors, isDirty } =
+        useForm<{
+            name: string;
+        }>({
+            name: "",
+        });
 
     function submit(e: SyntheticEvent) {
         e.preventDefault();
@@ -22,15 +25,11 @@ function FormCreatePlaylist() {
                     page.props.flash.response.status || ("info" as TypeToast);
                 toast[typeToast](page.props.flash.response.message);
             },
-            onFinish: () => {
-                reset("name");
-            },
         });
     }
 
     return (
         <form onSubmit={submit} className="text-white">
-            <p className="sub-heading">new playlist</p>
             <InputLabel htmlFor="Playlist" value="Playlist name" />
             <TextInput
                 id="Playlist"
@@ -43,7 +42,11 @@ function FormCreatePlaylist() {
                 isFocused={true}
                 onChange={(e) => setData("name", e.target.value)}
             />
-            <PrimaryButton className=" mt-2 w-full" disabled={processing}>
+            <InputError message={errors.name} />
+            <PrimaryButton
+                className=" mt-2 w-full"
+                disabled={processing || !isDirty}
+            >
                 Save
             </PrimaryButton>
         </form>
