@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\FlashMessage;
+use App\FlashStatus;
 use App\Tmdb\APITmdb;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -29,9 +31,9 @@ class HomeController extends Controller
             "page" => 1
         ]);
         if (empty($found['results'])) {
-            return response()->json("kosong");
+            return redirect()->route('movies.create', ['q' => $query])->with(flashMessage('not found'));
         }
-        $result = array_filter($found['results'], fn($type) => !empty($type['release_date']  && $type['poster_path']));
+        $result = array_filter($found['results'], fn($type) => !empty($type['release_date']) && !empty($type['poster_path']));
         $result = collect(array_values($result))->map(fn($movie) => [
             "id" => $movie['id'],
             "original_title" => $movie['original_title'],
@@ -41,7 +43,7 @@ class HomeController extends Controller
         ]);
         return Inertia::render('Index', [
             "movies" => $result,
-            'q' => $query
+            'q' => $query,
         ]);
     }
 }

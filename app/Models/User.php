@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
+
 
 class User extends Authenticatable
 {
@@ -52,5 +54,12 @@ class User extends Authenticatable
     public function playlists(): HasMany
     {
         return $this->hasMany(playlist::class);
+    }
+
+    protected static function booted(): void
+    {
+        static::creating(function (self $user) {
+            $user->name_slug = Str::slug($user->name . ' ' . $user->id);
+        });
     }
 }

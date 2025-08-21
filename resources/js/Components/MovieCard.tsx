@@ -1,46 +1,36 @@
 import { PlayIcon } from "hugeicons-react";
+import DangerButton from "./DangerButton";
+import { formatDate } from "@/helpers/helper";
 interface MovieCard {
     poster: string;
     title: string;
     release_date: string;
     onWatch: React.MouseEventHandler<HTMLButtonElement>;
 }
-export default function MovieCard<Movie>({
+export default function MovieCard({
     poster,
     title,
     release_date,
     onWatch,
 }: MovieCard) {
     return (
-        <div className="relative overflow-hidden rounded-md group min-w-28 max-w-44 max-h-64">
+        <div className="relative overflow-hidden rounded-md group min-w-24 sm:min-w-28 max-w-40 max-h-60">
             <img src={poster} className="w-full h-full object-cover" />
             <div className="absolute inset-0 z-10 transition-opacity duration-300  bg-zinc-600/45 opacity-0 group-hover:opacity-100 group-hover:backdrop-blur-sm  flex items-end ">
-                <div className=" w-full p-3 z-20 ">
-                    <h1 className=" text-sm font-bold sm:text-lg whitespace-normal">
+                <div className=" w-full p-3 z-20 flex flex-col translate-y-50 group-hover:translate-y-0 transition-all ease-in-out duration-300 delay-75">
+                    <h1 className=" text-xs font-bold sm:text-lg/tight whitespace-break-spaces">
                         {title}
                     </h1>
-                    <span className=" text-xs sm:text-sm block md:mb-1">
-                        {release_date}
+                    <span className=" text-[10px] sm:text-xs block md:mb-1">
+                        {formatDate(release_date)}
                     </span>
-                    <button
-                        type="button"
-                        className="transition-all text-sm duration-100 rounded-lg w-full min-h-7 sm:min-h-9 max-h-10 flex items-center gap-x-2 justify-center  bg-red-500 hover:bg-red-600 cursor-pointer"
-                        onClick={onWatch}
-                    >
+                    <DangerButton onClick={onWatch}>
                         <PlayIcon
-                            size={19}
                             color="white"
-                            className="sm:hidden"
+                            className=" text-inherit hidden sm:block"
                         />
-                        <PlayIcon
-                            size={23}
-                            color="white"
-                            className="hidden sm:block"
-                        />
-                        <span className=" text-sm sm:max-2xl:text-base tracking-wider font-medium">
-                            Watch
-                        </span>
-                    </button>
+                        <span className=" block">watch</span>
+                    </DangerButton>
                 </div>
             </div>
         </div>

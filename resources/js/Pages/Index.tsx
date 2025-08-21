@@ -1,34 +1,32 @@
 import NavigationBar from "@/Components/NavigationBar";
 import PrimaryButton from "@/Components/PrimaryButton";
-import SecondaryButton from "@/Components/SecondaryButton";
 import TextInput from "@/Components/TextInput";
-import Guest from "@/Layouts/GuestLayout";
-import { router, Link, usePage } from "@inertiajs/react";
+import { router, Link, usePage, Head } from "@inertiajs/react";
 import { SyntheticEvent, useState } from "react";
-import { PlayIcon } from "hugeicons-react";
 import MovieCard from "@/Components/MovieCard";
+import ListLayout from "@/Layouts/ListLayout";
 
 export default function Index() {
-    const { movies } = usePage().props;
+    const { movies, flash } = usePage().props;
     const [keyword, setKeyword] = useState("");
 
     function handleSubmit(e: SyntheticEvent) {
         e.preventDefault();
         router.get(
-            route("movies.findMovie"),
+            route("findMovie"),
             {
                 q: keyword,
             },
             {
-                only: ["movies"],
+                only: ["movies", "flash"],
             }
         );
     }
 
     return (
-        <Guest>
+        <>
             <div className=" mt-24">
-                <div className="bg-zinc-600/60 text-gray-100 shadow-sm rounded-md sm:max-w-xl sm:mx-auto overflow-hidden px-4 py-6 ">
+                <div className="bg-secondary  text-white shadow-sm rounded-md min-w-80 sm:max-w-xl sm:mx-auto overflow-hidden px-4 py-6 ">
                     <form
                         onSubmit={handleSubmit}
                         className=" flex flex-col space-y-2"
@@ -54,28 +52,34 @@ export default function Index() {
                 </div>
             </div>
 
-            {movies && (
-                <div className=" mt-4">
+            <section className=" mt-4 w-full">
+                {flash && (
                     <h1 className=" mb-4 text-center font-semibold sm:text-xl">
-                        Search Result
+                        {flash.response?.message}
                     </h1>
+                )}
+                {movies && (
+                    <>
+                        <h1 className=" mb-4 heading text-center">
+                            Search Result
+                        </h1>
 
-                    <div className="movies__result">
-                        <div className="max-w-7xl mx-auto grid grid-cols-2 grid-flow-row gap-x-10 gap-y-4 md:grid-cols-4 lg:grid-cols-6">
-                            {movies.map((movie) => (
-                                <MovieCard
-                                    poster={movie.poster}
-                                    title={movie.original_title}
-                                    release_date={movie.release_date}
-                                    onWatch={() =>
-                                        router.get(`/movie/detail/${movie.id}`)
-                                    }
-                                />
-                            ))}
+                        <div className="movies__result">
+                            <ListLayout classname=" max-w-7xl mx-auto">
+                                {movies.map((movie, i) => (
+                                    <MovieCard
+                                        key={i}
+                                        poster={movie.poster}
+                                        title={movie.original_title}
+                                        release_date={movie.release_date}
+                                        onWatch={() => router.get(movie.url)}
+                                    />
+                                ))}
+                            </ListLayout>
                         </div>
-                    </div>
-                </div>
-            )}
-        </Guest>
+                    </>
+                )}
+            </section>
+        </>
     );
 }

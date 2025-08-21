@@ -9,7 +9,7 @@ function ServerButton({
         <button
             {...props}
             className={
-                ` flex w-full justify-center gap-x-1 min-h-9 rounded-xl overflow-hidden items-center hover:border-slate-200 hover:bg-slate-100/10 ` +
+                ` flex w-full justify-center gap-x-1 cursor-pointer min-h-9 rounded-xl overflow-hidden items-center hover:border-slate-200 hover:bg-slate-100/10 ` +
                 className
             }
         >

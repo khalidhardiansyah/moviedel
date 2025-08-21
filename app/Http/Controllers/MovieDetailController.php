@@ -17,7 +17,6 @@ class MovieDetailController extends Controller
     public function __invoke($id)
     {
         $movie = (new APITmdb)->fetchData('/movie/' . $id);
-        $list_genres = (new APITmdb)->fetchData('/genre/movie/list');
         $filteredResult = Arr::only($movie, [
             'id',
             'original_title',
@@ -35,23 +34,18 @@ class MovieDetailController extends Controller
             "https://embed.su/embed/movie/{$filteredResult['id']}",
             "https://multiembed.mov/?video_id={$filteredResult['id']}&tmdb=1"
         ];
-
-
-
         $filteredResult['poster'] = $filteredResult['poster_path'] ?? null;
         unset($filteredResult["poster_path"]);
         $filteredResult['poster'] = "https://image.tmdb.org/t/p/original" . $movie['poster_path'];
 
         $recommendations = (new APITmdb)->fetchData("/movie/{$id}/recommendations");
-        $filteredRecommendation = collect($recommendations['results'])->map(fn($movie) => [
+        $result = array_filter($recommendations['results'], fn($type) => !empty($type['release_date']) && !empty($type['poster_path']));
+        $result = collect(array_values($result))->map(fn($movie) => [
             "id" => $movie['id'],
             "original_title" => $movie['original_title'],
-            'title' => $movie['title'],
-            "genres" => array_intersect_key($list_genres, $filteredResult['genres']),
-            "overview" => $movie['overview'],
             "release_date" => $movie['release_date'],
             "poster" => "https://image.tmdb.org/t/p/original" . $movie['poster_path'],
-            "link" => url("movie/detail/{$movie['id']}")
+            "url" => url("movie/detail/{$movie['id']}")
         ]);
 
         $user = auth()->user();
@@ -72,7 +66,7 @@ class MovieDetailController extends Controller
 
         return Inertia::render('MovieDetail', [
             "movie" => $filteredResult,
-            "recommendation_list" => $filteredRecommendation,
+            "recommendation_list" => $result,
             "playlists" => $playlist
         ]);
     }

@@ -1,33 +1,54 @@
-import { router, useForm } from "@inertiajs/react";
+import { router, useForm, usePage } from "@inertiajs/react";
 import React, { SyntheticEvent } from "react";
+import InputLabel from "./InputLabel";
+import TextInput from "./TextInput";
+import PrimaryButton from "./PrimaryButton";
+import { TypeToast } from "@/types";
+import { toast } from "react-toastify";
+import InputError from "./InputError";
+import { Cancel01Icon } from "hugeicons-react";
 
 function FormCreatePlaylist() {
-    const { data, setData } = useForm<{ name: string }>({
-        name: "",
-    });
+    const { data, setData, post, reset, processing, errors, isDirty } =
+        useForm<{
+            name: string;
+        }>({
+            name: "",
+        });
 
     function submit(e: SyntheticEvent) {
         e.preventDefault();
-        router.post("/playlist", data);
+        post(route("playlist.store"), {
+            preserveScroll: true,
+            onSuccess: (page) => {
+                const typeToast =
+                    page.props.flash.response.status || ("info" as TypeToast);
+                toast[typeToast](page.props.flash.response.message);
+            },
+        });
     }
 
     return (
-        <form onSubmit={submit}>
-            <h5 className=" first-letter:capitalize font-bold text-lg">
-                new playlist
-            </h5>
-            <label htmlFor="name">Name:</label>
-            <input
-                name="name"
+        <form onSubmit={submit} className="text-white">
+            <InputLabel htmlFor="Playlist" value="Playlist name" />
+            <TextInput
+                id="Playlist"
+                type="Playlist"
+                name="Playlist"
+                placeholder="Cult movie"
                 value={data.name}
+                className="mt-1 block w-full "
+                autoComplete="username"
+                isFocused={true}
                 onChange={(e) => setData("name", e.target.value)}
             />
-            <button
-                className="bg-blue-300 rounded-md py-3 w-full mt-4"
-                type="submit"
+            <InputError message={errors.name} />
+            <PrimaryButton
+                className=" mt-2 w-full"
+                disabled={processing || !isDirty}
             >
                 Save
-            </button>
+            </PrimaryButton>
         </form>
     );
 }

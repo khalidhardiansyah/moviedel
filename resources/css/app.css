@@ -7,6 +7,8 @@
     --font-sans: Figtree, ui-sans-serif, system-ui, sans-serif,
         "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
         "Noto Color Emoji";
+    --color-primary: #13151c;
+    --color-secondary: #1f2125;
 }
 
 /*
@@ -16,6 +18,31 @@ looks the same as it did with Tailwind CSS v3.
 If we ever want to remove these styles, we need to add an explicit border
 color utility to any element that depends on these defaults.
 */
+
+@layer components {
+    .heading {
+        font-size: clamp(1.688rem, 2vw + 1.25rem, 2.5rem);
+        font-weight: 700;
+        line-height: 0.8;
+        text-transform: capitalize;
+    }
+
+    .sub-heading {
+        font-size: clamp(1rem, 1.5vw, 1.125rem);
+        font-weight: 700;
+        line-height: clamp(1.25rem, 1.5vw + 1rem, 1.5rem);
+        text-transform: capitalize;
+    }
+
+    .menu-item {
+        font-size: clamp(1rem, 1.5vw, 1.125rem);
+        font-weight: 700;
+        line-height: clamp(1.25rem, 1.5vw + 1rem, 1.5rem);
+        text-transform: capitalize;
+        /* letter-spacing: clamp(0.075rem, 0.05rem + 0.05vw, 0.2rem); */
+    }
+}
+
 @layer base {
     *,
     ::after,
@@ -23,5 +50,16 @@ color utility to any element that depends on these defaults.
     ::backdrop,
     ::file-selector-button {
         border-color: var(--color-gray-200, currentColor);
+    }
+
+    body {
+        background-color: var(--color-primary);
+        @apply text-gray-100;
+        font-size: clamp(0.813rem, 1vw + 0.5rem, 1rem);
+    }
+
+    button {
+        font-weight: 700;
+        @apply text-sm sm:text-base/relaxed tracking-wide;
     }
 }

@@ -10,11 +10,11 @@ export default function NavLink({
         <Link
             {...props}
             className={
-                "inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium leading-5 transition duration-150 ease-in-out focus:outline-none " +
-                (active
-                    ? "border-gray-400 text-slate-100 focus:border-gray-700"
-                    : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 focus:border-gray-300 focus:text-gray-700") +
-                className
+                `menu-item  transition-all  duration-150 ease-in-out focus:outline-none group relative after:content[''] after:h-0.5 after:inset-x-0  after:-bottom-2 after:absolute  after:bg-white after:opacity-0 hover:after:opacity-100 hover:text-white ${
+                    active
+                        ? "text-white after:opacity-100"
+                        : "text-slate-200/75"
+                }` + className
             }
         >
             {children}
