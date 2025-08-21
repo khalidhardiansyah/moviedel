@@ -1,26 +1,28 @@
 import NavigationBar from "@/Components/NavigationBar";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
-import { router, Link, usePage, Head } from "@inertiajs/react";
+import { router, Link, usePage, Head, useForm } from "@inertiajs/react";
 import { SyntheticEvent, useState } from "react";
 import MovieCard from "@/Components/MovieCard";
 import ListLayout from "@/Layouts/ListLayout";
+import InputError from "@/Components/InputError";
 
 export default function Index() {
-    const { movies, flash } = usePage().props;
-    const [keyword, setKeyword] = useState("");
+    const { movies, flash, errors, keyword } = usePage().props;
+    const { get, setData, data, reset, isDirty } = useForm<{
+        keyword: string;
+    }>({
+        keyword: "",
+    });
 
     function handleSubmit(e: SyntheticEvent) {
         e.preventDefault();
-        router.get(
-            route("findMovie"),
-            {
-                q: keyword,
+        get("/search?keyword=" + data.keyword, {
+            preserveScroll: true,
+            onFinish: () => {
+                reset("keyword");
             },
-            {
-                only: ["movies", "flash"],
-            }
-        );
+        });
     }
 
     return (
@@ -37,11 +39,14 @@ export default function Index() {
                         <TextInput
                             name="keyword"
                             placeholder="movie title ex: sekawan limo"
-                            id="name"
-                            value={keyword}
-                            onChange={(e) => setKeyword(e.target.value)}
+                            id="keyword"
+                            value={data.keyword}
+                            onChange={(e) => setData("keyword", e.target.value)}
                         />
-                        <PrimaryButton>Search</PrimaryButton>
+                        <InputError message={errors.keyword} />
+                        <PrimaryButton disabled={!isDirty}>
+                            Search
+                        </PrimaryButton>
                         <Link
                             href={route("movies.trending")}
                             className=" underline underline-offset-4"
@@ -61,7 +66,7 @@ export default function Index() {
                 {movies && (
                     <>
                         <h1 className=" mb-4 heading text-center">
-                            Search Result
+                            Search Result for {keyword}
                         </h1>
 
                         <div className="movies__result">

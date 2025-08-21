@@ -12,8 +12,10 @@ export default function SecondaryButton({
             {...props}
             type={type}
             className={
-                `inline-flex justify-center items-center rounded-md bg-[#333434] px-4 py-2  transition duration-150 ease-in-out hover:bg-[#333434]/55 cursor-pointer ${
-                    disabled && "opacity-25 cursor-not-allowed"
+                `inline-flex justify-center items-center rounded-md bg-[#333434] px-4 py-2  transition duration-150 ease-in-out hover:bg-[#333434]/55 ${
+                    disabled
+                        ? "opacity-25 cursor-not-allowed"
+                        : "cursor-pointer"
                 } ` + className
             }
             disabled={disabled}

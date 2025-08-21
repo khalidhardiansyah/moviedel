@@ -6,6 +6,7 @@ use App\FlashMessage;
 use App\FlashStatus;
 use App\Tmdb\APITmdb;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
 
@@ -22,8 +23,17 @@ class HomeController extends Controller
 
     public function findMovie(Request $request)
     {
-        $query = $request->query("q");
+        $validator = Validator::make($request->query(), [
+            'keyword' => 'required|string'
+        ], [
+            'keword' => 'Search field cannot be empty.'
+        ]);
+        if ($validator->fails()) {
+            return redirect()->route('movies.create', ['keyword' => $request->query('keyword')])->withErrors($validator)->withInput();
+        }
+        $query = $validator->validated()['keyword'];
         $api = new APITmdb();
+
         $found = $api->fetchData('search/movie', [
             "query" => $query,
             "include_adult" => false,
@@ -31,7 +41,7 @@ class HomeController extends Controller
             "page" => 1
         ]);
         if (empty($found['results'])) {
-            return redirect()->route('movies.create', ['q' => $query])->with(flashMessage('not found'));
+            return redirect()->route('movies.create', ['keyword' => $query])->with(flashMessage("No results found for {$query}. Try different keywords."));
         }
         $result = array_filter($found['results'], fn($type) => !empty($type['release_date']) && !empty($type['poster_path']));
         $result = collect(array_values($result))->map(fn($movie) => [
@@ -43,7 +53,7 @@ class HomeController extends Controller
         ]);
         return Inertia::render('Index', [
             "movies" => $result,
-            'q' => $query,
+            'keyword' => $query,
         ]);
     }
 }
