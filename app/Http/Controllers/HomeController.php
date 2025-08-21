@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\FlashMessage;
 use App\FlashStatus;
+use App\Providers\TmdbProvider;
 use App\Tmdb\APITmdb;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -21,7 +22,7 @@ class HomeController extends Controller
         return Inertia::render('Index');
     }
 
-    public function findMovie(Request $request)
+    public function findMovie(Request $request, APITmdb $apitmdb)
     {
         $validator = Validator::make($request->query(), [
             'keyword' => 'required|string'
@@ -32,9 +33,8 @@ class HomeController extends Controller
             return redirect()->route('movies.create', ['keyword' => $request->query('keyword')])->withErrors($validator)->withInput();
         }
         $query = $validator->validated()['keyword'];
-        $api = new APITmdb();
 
-        $found = $api->fetchData('search/movie', [
+        $found = $apitmdb->getData('search/movie', [
             "query" => $query,
             "include_adult" => false,
             "language" => "en-US",
