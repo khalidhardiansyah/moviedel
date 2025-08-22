@@ -10,16 +10,15 @@ class TrendingMovieController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke()
+    public function __invoke(APITmdb $apitmdb)
     {
-        $api = new APITmdb();
-        $newMovieList = $api->fetchData('trending/movie/day?language=en-US', [
+        $newMovieList = $apitmdb->getData('trending/movie/day?language=en-US', [
             "language" => "en-US",
             "page" => 1,
             "region" => "ID"
         ])['results'];
 
-        $filteredResult = collect(array_values($newMovieList))->map(fn($movie) => [
+        $filteredResult = collect($newMovieList)->map(fn($movie) => [
             "id" => $movie['id'],
             "original_title" => $movie['original_title'],
             "release_date" => $movie['release_date'],

@@ -14,10 +14,10 @@ class MovieDetailController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke($id)
+    public function __invoke($id, APITmdb $apitmdb)
     {
-        $movie = (new APITmdb)->fetchData('/movie/' . $id);
-        $filteredResult = Arr::only($movie, [
+        $movie = $apitmdb->getData('/movie/' . $id);
+        $filteredResult = $movie->only([
             'id',
             'original_title',
             'title',
@@ -38,9 +38,9 @@ class MovieDetailController extends Controller
         unset($filteredResult["poster_path"]);
         $filteredResult['poster'] = "https://image.tmdb.org/t/p/original" . $movie['poster_path'];
 
-        $recommendations = (new APITmdb)->fetchData("/movie/{$id}/recommendations");
+        $recommendations = $apitmdb->getData("/movie/{$id}/recommendations");
         $result = array_filter($recommendations['results'], fn($type) => !empty($type['release_date']) && !empty($type['poster_path']));
-        $result = collect(array_values($result))->map(fn($movie) => [
+        $result = collect($result)->map(fn($movie) => [
             "id" => $movie['id'],
             "original_title" => $movie['original_title'],
             "release_date" => $movie['release_date'],
