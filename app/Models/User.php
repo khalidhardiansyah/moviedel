@@ -3,6 +3,9 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -54,6 +57,13 @@ class User extends Authenticatable
     public function playlists(): HasMany
     {
         return $this->hasMany(playlist::class);
+    }
+
+
+    #[Scope]
+    protected   function userSlug(Builder $query, $user_slug): void
+    {
+        $query->where('name_slug', $user_slug);
     }
 
     protected static function booted(): void
