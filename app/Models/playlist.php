@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -28,6 +30,12 @@ class playlist extends Model
         static::creating(function (self $playlist) {
             $playlist->name_slug = Str::slug($playlist->name . ' ' . $playlist->user_id);
         });
+    }
+
+    #[Scope]
+    protected function playlistSlug(Builder $query, $playlist_slug): void
+    {
+        $query->where("name_slug", $playlist_slug)->where("is_public", true)->select("id", "name", "name_slug", 'is_public', 'user_id');
     }
 
     function collections(): BelongsToMany
