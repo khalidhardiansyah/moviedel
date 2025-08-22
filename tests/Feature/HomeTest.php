@@ -22,13 +22,13 @@ class HomeTest extends TestCase
     }
     public function test_home_page_if_search_movie_and_found_them(): void
     {
-        $this->get('/search?q=iron man')
+        $this->get('/search?keyword=iron man')
             ->assertOk()
             ->assertInertia(
                 fn(AssertableInertia $page) => $page
                     ->component('Index')
                     ->has('movies.0')
-                    ->has('q')
+                    ->has('keyword')
             );
     }
     public function test_home_page_if_search_movie_and_cant_find_it(): void
@@ -36,9 +36,9 @@ class HomeTest extends TestCase
         $this
             ->followingRedirects()
             ->get(route('findMovie', [
-                'q'   => "film ukm mahasiswa menang venice festival"
+                'keyword'   => "film ukm mahasiswa menang venice festival"
             ]))
             ->assertOk()
-            ->assertSee('not found');
+            ->assertSee('No results found for film ukm mahasiswa menang venice festival. Try different keywords.');
     }
 }
