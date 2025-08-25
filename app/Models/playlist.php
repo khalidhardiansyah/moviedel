@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -13,7 +14,7 @@ class playlist extends Model
 {
     //
     use HasFactory;
-
+    protected $appends = ['url'];
     protected $fillable = [
         'name',
         'is_public',
@@ -30,6 +31,13 @@ class playlist extends Model
         static::creating(function (self $playlist) {
             $playlist->name_slug = Str::slug($playlist->name . ' ' . $playlist->user_id);
         });
+    }
+
+    protected function url(): Attribute
+    {
+        return new Attribute(
+            get: fn() => url("/users/{$this->name_slug}/playlists/$this->name_slug")
+        );
     }
 
     #[Scope]
