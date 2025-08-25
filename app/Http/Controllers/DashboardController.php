@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Contracts\Database\Query\Builder;
-use Illuminate\Http\Request;
+use App\Models\playlist;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
@@ -13,12 +13,10 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $user = auth()->user();
-        $data = $user->playlists()->select('id', 'name', 'is_public', 'name_slug')->with(['collections:id,title,original_title,year,poster'])->get();
-        $data->each(fn($item) => $item->collections->each->makeHidden('pivot'));
-        return response()->json($data);
-        // return Inertia::render("Dashboard", [
-        //     "user_playlist" => $data
-        // ]);
+        $id = Auth::id();
+        $data = playlist::playlistByUser($id)->get();
+        return Inertia::render("Dashboard", [
+            "user_playlist" => $data
+        ]);
     }
 }

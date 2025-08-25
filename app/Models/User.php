@@ -12,6 +12,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 
+use function Laravel\Prompts\select;
 
 class User extends Authenticatable
 {
@@ -61,10 +62,12 @@ class User extends Authenticatable
 
 
     #[Scope]
-    protected   function userSlug(Builder $query, $user_slug): void
+    protected function userSlug(Builder $query, $user_slug): void
     {
         $query->where('name_slug', $user_slug);
     }
+
+
 
     protected static function booted(): void
     {

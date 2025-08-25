@@ -16,7 +16,7 @@ class collection extends Model
 
     public $incrementing = false;
     protected $appends = ['url', 'release_date'];
-    protected $hidden = ['year'];
+    protected $hidden = ['year', 'pivot'];
     protected $fillable = [
         'id',
         'title',
