@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Tmdb\APITmdb;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class TrendingMovieController extends Controller
 {
     /**
      * Handle the incoming request.
      */
-    public function __invoke(APITmdb $apitmdb)
+    public function __invoke(APITmdb $apitmdb): Response
     {
         $newMovieList = $apitmdb->getData('trending/movie/day?language=en-US', [
             "language" => "en-US",
@@ -18,13 +19,7 @@ class TrendingMovieController extends Controller
             "region" => "ID"
         ])['results'];
 
-        $filteredResult = collect($newMovieList)->map(fn($movie) => [
-            "id" => $movie['id'],
-            "original_title" => $movie['original_title'],
-            "release_date" => $movie['release_date'],
-            "poster" => "https://image.tmdb.org/t/p/original" . $movie['poster_path'],
-            "url" => url("movie/detail/{$movie['id']}")
-        ]);
+        $filteredResult = collect($newMovieList)->map(fn($movie) => filterResponse($movie));
         return Inertia::render('Trending', [
             "movies" => $filteredResult
         ]);

@@ -7,21 +7,8 @@ import Dropdown from "./Dropdown";
 import ProfileDropdown from "./ProfileDropdown";
 import TextInput from "./TextInput";
 
-function NavigationBar() {
+export const NavigationBar = () => {
     const { auth } = usePage().props;
-    const [inputTitle, setInputTitle] = useState(" ");
-    let timeoutId: ReturnType<typeof setTimeout>;
-    function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
-        const value = e.currentTarget.value;
-
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(() => {
-            router.get("/search", {
-                q: value,
-            });
-        }, 300);
-    }
-
     return (
         <nav className=" bg-primary/55 backdrop-blur-xs fixed z-20  w-full h-20 top-0 px-5 flex items-center justify-center">
             <div className="flex items-center justify-between w-full h-full max-w-7xl">
@@ -61,6 +48,4 @@ function NavigationBar() {
             </div>
         </nav>
     );
-}
-
-export default NavigationBar;
+};

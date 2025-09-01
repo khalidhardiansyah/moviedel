@@ -29,7 +29,7 @@ class PlaylistController extends Controller
     {
 
         $request->validate([
-            'is_public' => 'required|number'
+            'is_public' => 'required|boolean'
         ]);
         try {
             $user = auth()->user();

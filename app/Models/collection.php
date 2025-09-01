@@ -9,14 +9,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+
+/**
+ * @see
+ */
+
 class collection extends Model
 {
-    //
+
     use HasFactory;
 
     public $incrementing = false;
-    protected $appends = ['url', 'release_date'];
-    protected $hidden = ['year', 'pivot'];
+    protected $appends = ['url',];
+    protected $hidden = ['pivot'];
     protected $fillable = [
         'id',
         'title',
@@ -28,20 +33,16 @@ class collection extends Model
     public function poster(): Attribute
     {
         return Attribute::make(
-            get: fn($poster) => "https://image.tmdb.org/t/p/original" . $poster
+            get: fn($poster) => config('services.tmdb.image_url') . $poster
         );
     }
 
-    public function releaseDate(): Attribute
-    {
-        return new Attribute(
-            get: fn() => $this->year
-        );
-    }
+
     protected function url(): Attribute
     {
         return new Attribute(
             get: fn() => url("movie/detail/{$this->id}")
+
         );
     }
     public function playlists(): BelongsToMany
@@ -52,10 +53,10 @@ class collection extends Model
 
 
     #[Scope]
-    protected function sharedCollection(Builder $query, $playlist_id): void
+    protected function sharedCollection(Builder $query, int $playlist_id): void
     {
         $query->join("collection_playlists", "collections.id", "=", "collection_playlists.collection_id")
             ->where("collection_playlists.playlist_id", $playlist_id)
-            ->select("collections.id", "title", "original_title", "year", "poster");
+            ->select("collections.id", "title", "original_title", "year as release_date", "poster");
     }
 }

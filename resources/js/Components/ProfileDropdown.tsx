@@ -11,7 +11,10 @@ function ProfileDropdown() {
             {auth.user ? (
                 <Dropdown>
                     <Dropdown.Trigger>
-                        <button className="cursor-pointer text-slate-200/75 hover:text-white">
+                        <button
+                            data-testid="dropdown-trigger"
+                            className="cursor-pointer text-slate-200/75 hover:text-white"
+                        >
                             <UserIcon />
                         </button>
                     </Dropdown.Trigger>
@@ -43,6 +46,7 @@ function ProfileDropdown() {
                 <Link
                     href={route("login")}
                     className="cursor-pointer text-slate-200/75 hover:text-white"
+                    alt="login"
                 >
                     <UserIcon />
                 </Link>

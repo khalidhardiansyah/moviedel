@@ -2,9 +2,6 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Database\Eloquent\Casts\AsStringable;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Inertia\Testing\AssertableInertia;
 use Tests\TestCase;
 

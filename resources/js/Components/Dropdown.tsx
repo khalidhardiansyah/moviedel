@@ -96,6 +96,7 @@ const Content = ({
                             `rounded-md  overflow-hidden flex flex-col justify-start ` +
                             contentClasses
                         }
+                        data-testid="dropdown-content"
                     >
                         {children}
                     </div>

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\collection;
-use App\Models\playlist;
 use FlashStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;

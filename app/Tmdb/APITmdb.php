@@ -2,27 +2,11 @@
 
 namespace App\Tmdb;
 
-use Illuminate\Http\Client\Response;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
 class APITmdb
 {
-
-    // private  $URL = "https://api.themoviedb.org/3/";
-    // public function fetchData($url, $query = [])
-    // {
-    //     $apiReadKey = config('services.tmdb.read_api_key');
-    //     $response = Http::withHeaders([
-    //         'Authorization' => "Bearer " . $apiReadKey,
-    //         'accept' => 'application/json',
-    //     ]);
-    //     if (!empty($query)) {
-    //         $response->withQueryParameters($query);
-    //     }
-    //     $data =  $response->get($this->URL . $url)->json();
-    //     return $data;
-    // }
-
     private $BaseUrl, $apiKey;
     public function __construct($apiKey, $BaseUrl)
     {
@@ -30,7 +14,7 @@ class APITmdb
         $this->apiKey = $apiKey;
     }
 
-    public function getData($url, $query = [])
+    public function getData(string $url, array $query = []): Collection
     {
         $request = Http::withHeaders([
             'Authorization' => "Bearer " . $this->apiKey,

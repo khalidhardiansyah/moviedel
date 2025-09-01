@@ -2,11 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\playlist;
 use App\Tmdb\APITmdb;
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class MovieDetailController extends Controller
@@ -16,38 +12,11 @@ class MovieDetailController extends Controller
      */
     public function __invoke($id, APITmdb $apitmdb)
     {
-        $movie = $apitmdb->getData('/movie/' . $id);
-        $filteredResult = $movie->only([
-            'id',
-            'original_title',
-            'title',
-            'genres',
-            'overview',
-            'release_date',
-            'poster_path',
-        ]);
-        $filteredResult['videos'] = [
-            "https://vidsrc.io/embed/movie?tmdb={$filteredResult['id']}",
-            "https://vidsrc.pm/embed/movie?tmdb={$filteredResult['id']}",
-            "https://vidsrc.to/embed/movie/{$filteredResult['id']}",
-            "https://player.autoembed.cc/embed/movie/{$filteredResult['id']}",
-            "https://embed.su/embed/movie/{$filteredResult['id']}",
-            "https://multiembed.mov/?video_id={$filteredResult['id']}&tmdb=1"
-        ];
-        $filteredResult['poster'] = $filteredResult['poster_path'] ?? null;
-        unset($filteredResult["poster_path"]);
-        $filteredResult['poster'] = "https://image.tmdb.org/t/p/original" . $movie['poster_path'];
-
-        $recommendations = $apitmdb->getData("/movie/{$id}/recommendations");
-        $result = array_filter($recommendations['results'], fn($type) => !empty($type['release_date']) && !empty($type['poster_path']));
-        $result = collect($result)->map(fn($movie) => [
-            "id" => $movie['id'],
-            "original_title" => $movie['original_title'],
-            "release_date" => $movie['release_date'],
-            "poster" => "https://image.tmdb.org/t/p/original" . $movie['poster_path'],
-            "url" => url("movie/detail/{$movie['id']}")
-        ]);
-
+        $movie = $apitmdb->getData("/movie/{$id}");
+        $filteredResult = responseDetail($movie);
+        $recommendations = $apitmdb->getData("/movie/{$id}/recommendations")['results'];
+        $result = array_filter($recommendations, fn($type) => !empty($type['release_date']) && !empty($type['poster_path']));
+        $result = collect($result)->map(fn($movie) => filterResponse($movie));
         $user = auth()->user();
         $playlist = [];
         if ($user) {

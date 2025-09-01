@@ -123,4 +123,14 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+
+    'video_urls' => [
+        "https://vidsrc.io/embed/movie?tmdb=%d",
+        "https://vidsrc.pm/embed/movie?tmdb=%d",
+        "https://vidsrc.to/embed/movie/%d",
+        "https://player.autoembed.cc/embed/movie/%d",
+        "https://embed.su/embed/movie/%d",
+        "https://multiembed.mov/?video_id=%d&tmdb=1"
+    ]
+
 ];

@@ -17,7 +17,7 @@ class TmdbProvider extends ServiceProvider
         $this->app->singleton(APITmdb::class, function (Application $app) {
             return new APITmdb(
                 apiKey: config('services.tmdb.read_api_key'),
-                BaseUrl: 'https://api.themoviedb.org/3/'
+                BaseUrl: config('services.tmdb.url')
             );
         });
     }

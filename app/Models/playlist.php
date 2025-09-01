@@ -26,6 +26,7 @@ class playlist extends Model
         return ['is_public' => 'boolean'];
     }
 
+
     protected static function booted(): void
     {
         static::creating(function (self $playlist) {
@@ -35,22 +36,32 @@ class playlist extends Model
 
     protected function url(): Attribute
     {
+
         return new Attribute(
-            get: fn() => url("/users/{$this->name_slug}/playlists/$this->name_slug")
+            get: fn() => url(route('playlist.share_show', [
+                'user_slug' => User::where('id', '=', $this->user_id)->value('name_slug'),
+                'playlist_slug' => $this->name_slug
+            ]))
         );
     }
 
     #[Scope]
-    protected function playlistSlug(Builder $query, $playlist_slug): void
+    protected function playlistSlug(Builder $query, string $playlist_slug, int $user_id): void
     {
-        $query->where("name_slug", $playlist_slug)->where("is_public", true)->select("id", "name", "name_slug", 'is_public', 'user_id');
+        $query->where("name_slug", $playlist_slug)
+            ->where("is_public", true)
+            ->where('user_id', '=', $user_id)
+            ->select("id", "name", "name_slug", 'is_public', 'user_id');
     }
 
 
     #[Scope]
-    protected function playlistByUser(Builder $query, $user_id): void
+    protected function playlistByUser(Builder $query, int $user_id): void
     {
-        $query->select('id', 'name', 'name_slug', 'is_public', 'user_id')->where('user_id', '=', $user_id)->with('collections:id,poster,title,original_title,year');
+        $query->select('id', 'name', 'name_slug', 'is_public', 'user_id')
+            ->where('user_id', '=', $user_id)
+            ->with(['collections' => fn($collection) => $collection
+                ->select('collections.id', 'poster', 'title', 'original_title', 'year as release_date')]);
     }
     function collections(): BelongsToMany
     {

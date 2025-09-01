@@ -64,7 +64,7 @@ class User extends Authenticatable
     #[Scope]
     protected function userSlug(Builder $query, $user_slug): void
     {
-        $query->where('name_slug', $user_slug);
+        $query->select('id', 'name', 'name_slug')->where('name_slug', $user_slug);
     }
 
 

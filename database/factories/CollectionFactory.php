@@ -20,7 +20,7 @@ class CollectionFactory extends Factory
             'id' => fake()->unique()->numberBetween(1, 999),
             'title' => fake()->sentence(),
             'original_title' => fake()->sentence(),
-            'year' => fake()->year(),
+            'year' => strval(fake()->year()),
             'poster' => fake()->sentence(6),
         ];
     }

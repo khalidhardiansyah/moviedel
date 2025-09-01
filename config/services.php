@@ -36,6 +36,8 @@ return [
     ],
 
     'tmdb' => [
+        'url' => 'https://api.themoviedb.org/3/',
+        'image_url' => 'https://image.tmdb.org/t/p/original',
         'api_key' => env('TMDB_API_KEY'),
         'read_api_key' => env('TMDB_API_READ_KEY')
     ]

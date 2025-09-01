@@ -3,7 +3,7 @@ import MovieCard from "@/Components/MovieCard";
 import { usePage, router } from "@inertiajs/react";
 
 function Collection() {
-    const { playlist } = usePage().props;
+    const { playlist, msg } = usePage().props;
     return (
         <>
             {playlist.collections.length > 0 ? (
@@ -21,10 +21,7 @@ function Collection() {
                     ))}
                 </ListLayout>
             ) : (
-                <h3 className=" mt-2.5">
-                    Looks like this playlist doesn’t have any films yet. Check
-                    back soon for recommendations.
-                </h3>
+                <h3 className=" mt-2.5">{msg}</h3>
             )}
         </>
     );

@@ -4,29 +4,38 @@
     "type": "module",
     "scripts": {
         "build": "tsc && vite build",
-        "dev": "vite"
+        "dev": "vite",
+        "test": "vitest"
     },
     "devDependencies": {
         "@headlessui/react": "^2.2.7",
         "@inertiajs/react": "^2.0.0",
         "@tailwindcss/forms": "^0.5.3",
         "@tailwindcss/vite": "^4.1.11",
+        "@testing-library/dom": "^10.4.1",
+        "@testing-library/jest-dom": "^6.8.0",
+        "@testing-library/react": "^16.3.0",
         "@types/node": "^18.13.0",
         "@types/react": "^18.0.28",
         "@types/react-dom": "^18.0.10",
+        "@types/testing-library__user-event": "^4.2.0",
         "@vitejs/plugin-react": "^4.2.0",
         "axios": "^1.8.2",
         "concurrently": "^9.0.1",
+        "global-jsdom": "^26.0.0",
+        "jsdom": "^26.1.0",
         "laravel-vite-plugin": "^1.2.0",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "typescript": "^5.0.2",
-        "vite": "^6.2.4"
+        "vite": "^6.2.4",
+        "vitest": "^3.2.4"
     },
     "dependencies": {
         "@headlessui/tailwindcss": "^0.2.2",
         "hugeicons-react": "^0.3.0",
         "react-toastify": "^11.0.5",
-        "swiper": "^11.2.10"
+        "swiper": "^11.2.10",
+        "ziggy-js": "^2.5.3"
     }
 }
