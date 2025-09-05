@@ -25,8 +25,6 @@ export default function Index() {
         });
     }
 
-    console.log(movies);
-
     return (
         <>
             <div className=" mt-24">

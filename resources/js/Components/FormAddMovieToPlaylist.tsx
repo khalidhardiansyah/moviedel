@@ -1,10 +1,9 @@
-import { router, useForm, usePage } from "@inertiajs/react";
+import { useForm, usePage } from "@inertiajs/react";
 import { SyntheticEvent, useState } from "react";
 import PrimaryButton from "./PrimaryButton";
 import { TypeToast } from "@/types";
 import { toast } from "react-toastify";
 import InputError from "./InputError";
-import { Cancel01Icon } from "hugeicons-react";
 
 function FormAddMovieToPlaylist() {
     const { movie, playlists } = usePage().props;
@@ -42,7 +41,12 @@ function FormAddMovieToPlaylist() {
         });
     }
     return (
-        <form onSubmit={handleSubmit} method="post" className="text-white">
+        <form
+            data-testid="form-add-to-playlist"
+            onSubmit={handleSubmit}
+            method="post"
+            className="text-white"
+        >
             {playlists.length !== 0 ? (
                 <>
                     {Playlist.map((playlist, i) => (

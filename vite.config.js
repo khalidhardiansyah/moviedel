@@ -14,7 +14,7 @@ export default defineConfig({
     ],
     test: {
         environment: "jsdom",
-        // globals: true,
+        globals: true,
         setupFiles: ["./resources/js/test/setupFiles/component-mocking.tsx"],
         mockReset: true,
     },

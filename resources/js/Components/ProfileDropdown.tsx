@@ -46,7 +46,6 @@ function ProfileDropdown() {
                 <Link
                     href={route("login")}
                     className="cursor-pointer text-slate-200/75 hover:text-white"
-                    alt="login"
                 >
                     <UserIcon />
                 </Link>

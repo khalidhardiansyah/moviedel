@@ -1,12 +1,11 @@
-import { router, useForm, usePage } from "@inertiajs/react";
-import React, { SyntheticEvent } from "react";
+import { useForm } from "@inertiajs/react";
+import { SyntheticEvent } from "react";
 import InputLabel from "./InputLabel";
 import TextInput from "./TextInput";
 import PrimaryButton from "./PrimaryButton";
 import { TypeToast } from "@/types";
 import { toast } from "react-toastify";
 import InputError from "./InputError";
-import { Cancel01Icon } from "hugeicons-react";
 
 function FormCreatePlaylist() {
     const { data, setData, post, reset, processing, errors, isDirty } =

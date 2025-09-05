@@ -1,0 +1,49 @@
+{
+    "page": 1,
+    "results": [
+        {
+            "adult": false,
+            "backdrop_path": "/5ZxRiPY0oXLcPaqYvMfAhO41bIf.jpg",
+            "genre_ids": [12, 35, 27],
+            "id": 1279914,
+            "original_language": "jv",
+            "original_title": "Sekawan Limo",
+            "overview": "In this quirky horror comedy, five hikers explore a mountain, casually heeding superstitious warnings - but later realize that one of them is a ghost.",
+            "popularity": 2.4888,
+            "poster_path": "/jLiHiQuZDXNOKp1iGMRqNpt8Kx8.jpg",
+            "release_date": "2024-07-04",
+            "title": "Five Friends",
+            "video": false,
+            "vote_average": 6.208,
+            "vote_count": 12
+        },
+        {
+            "adult": false,
+            "backdrop_path": null,
+            "id": 1395116,
+            "original_language": "en",
+            "original_title": "Sekawan Limo Collections",
+            "overview": "A Collections of Sekawan Limo films.",
+            "poster_path": null,
+            "title": "Sekawan Limo Collections"
+        },
+        {
+            "adult": false,
+            "backdrop_path": null,
+            "genre_ids": [27, 35, 12],
+            "id": 1395111,
+            "original_language": "id",
+            "original_title": "Sekawan Limo 2: Pesugihan Gunung Klawih",
+            "overview": "A sequel to Sekawan Limo (Five Friends, 2024).",
+            "popularity": 0.1416,
+            "poster_path": null,
+            "release_date": "",
+            "title": "Sekawan Limo 2: Pesugihan Gunung Klawih",
+            "video": false,
+            "vote_average": 0,
+            "vote_count": 0
+        }
+    ],
+    "total_pages": 1,
+    "total_results": 3
+}

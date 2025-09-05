@@ -7,7 +7,7 @@ import Dropdown from "./Dropdown";
 import ProfileDropdown from "./ProfileDropdown";
 import TextInput from "./TextInput";
 
-export const NavigationBar = () => {
+export default function NavigationBar() {
     const { auth } = usePage().props;
     return (
         <nav className=" bg-primary/55 backdrop-blur-xs fixed z-20  w-full h-20 top-0 px-5 flex items-center justify-center">
@@ -48,4 +48,4 @@ export const NavigationBar = () => {
             </div>
         </nav>
     );
-};
+}

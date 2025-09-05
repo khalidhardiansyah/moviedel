@@ -15,9 +15,9 @@ import { formatDate } from "@/helpers/helper";
 export type status = "add_to_playlist" | "create_playlist";
 
 export default function MovieDetail() {
-    const { movie, recommendation_list, playlists, auth } = usePage().props;
+    const { movie, recommendation_list, auth } = usePage().props;
     const [open, setOpen] = useState(false);
-    const [server, setServer] = useState(movie.videos[4]);
+    const [server, setServer] = useState(movie.videos[0]);
     const [modeForm, setModeForm] = useState<status>("add_to_playlist");
 
     const handleClose = () => {
@@ -107,8 +107,9 @@ export default function MovieDetail() {
                         </div>
 
                         <PrimaryButton
+                            type="button"
+                            data-testid="btn-save-playlist"
                             className=" mt-3 md:mt-0"
-                            type="submit"
                             onClick={() =>
                                 auth.user ? setOpen(true) : router.get("/login")
                             }

@@ -3,11 +3,18 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import ProfileDropdown from "@/Components/ProfileDropdown";
 import { usePage } from "@inertiajs/react";
+import { userAuth } from "./factory/factory";
 
 describe("profile dropdown user guest", () => {
     test("profile drop down show login if user unauthenticated", async () => {
+        vi.mocked(usePage).mockReturnValueOnce({
+            props: {
+                auth: userAuth(),
+            },
+        } as any);
         render(<ProfileDropdown />);
-        expect(screen.findAllByAltText("login"));
+        const linkLogin = screen.getByTestId("link");
+        expect(linkLogin).toBeDefined();
     });
 });
 
@@ -16,12 +23,12 @@ describe("profile dropdown user authenticated", () => {
         const user = userEvent.setup();
         vi.mocked(usePage).mockReturnValueOnce({
             props: {
-                auth: { user: { id: 1, name: "Khalid", email: "xxx@xx.com" } },
+                auth: userAuth(true),
             },
         } as any);
         render(<ProfileDropdown />);
-        const button = screen.getAllByTestId("dropdown-trigger");
-        await user.click(button[0]);
+        const button = screen.getByTestId("dropdown-trigger");
+        await user.click(button);
         expect(screen.getByTestId("dropdown-content")).toBeVisible();
     });
 });

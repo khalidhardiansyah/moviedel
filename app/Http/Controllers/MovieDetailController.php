@@ -12,11 +12,12 @@ class MovieDetailController extends Controller
      */
     public function __invoke($id, APITmdb $apitmdb)
     {
-        $movie = $apitmdb->getData("/movie/{$id}");
+        $movie = $apitmdb->getData("movie/{$id}");
         $filteredResult = responseDetail($movie);
         $recommendations = $apitmdb->getData("/movie/{$id}/recommendations")['results'];
         $result = array_filter($recommendations, fn($type) => !empty($type['release_date']) && !empty($type['poster_path']));
-        $result = collect($result)->map(fn($movie) => filterResponse($movie));
+        $result = collect(array_values($result))->map(fn($movie) => filterResponse($movie));
+
         $user = auth()->user();
         $playlist = [];
         if ($user) {
@@ -31,8 +32,6 @@ class MovieDetailController extends Controller
                 ];
             });
         }
-
-
         return Inertia::render('MovieDetail', [
             "movie" => $filteredResult,
             "recommendation_list" => $result,
