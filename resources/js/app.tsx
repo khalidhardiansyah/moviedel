@@ -14,7 +14,7 @@ type PageWithLayout = {
     };
 };
 createInertiaApp({
-    title: (title: string) => `${title} - ${appName}`,
+    title: (title: string) => `${title} | Watch free movies on ${appName}`,
     resolve: (name: string) => {
         const pages = import.meta.glob<PageWithLayout>("./Pages/**/*.tsx", {
             eager: true,

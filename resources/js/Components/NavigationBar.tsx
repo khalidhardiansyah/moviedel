@@ -6,6 +6,7 @@ import ResponsiveNavLink from "./ResponsiveNavLink";
 import Dropdown from "./Dropdown";
 import ProfileDropdown from "./ProfileDropdown";
 import TextInput from "./TextInput";
+import ApplicationLogo from "./ApplicationLogo";
 
 export default function NavigationBar() {
     const { auth } = usePage().props;
@@ -13,12 +14,9 @@ export default function NavigationBar() {
         <nav className=" bg-primary/55 backdrop-blur-xs fixed z-20  w-full h-20 top-0 px-5 flex items-center justify-center">
             <div className="flex items-center justify-between w-full h-full max-w-7xl">
                 <div className=" flex gap-x-3">
-                    <NavLink
-                        href={route("movies.create")}
-                        active={route().current("movies.create")}
-                    >
-                        Movie Del
-                    </NavLink>
+                    <Link href={route("movies.create")}>
+                        <ApplicationLogo />
+                    </Link>
                     <NavLink
                         href={route("movies.trending")}
                         active={route().current("movies.trending")}

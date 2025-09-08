@@ -27,6 +27,7 @@ export default function Index() {
 
     return (
         <>
+            <Head title="Home" />
             <div className=" mt-24">
                 <div className="bg-secondary  text-white shadow-sm rounded-md min-w-80 sm:max-w-xl sm:mx-auto overflow-hidden px-4 py-6 ">
                     <form

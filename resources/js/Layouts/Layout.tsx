@@ -1,5 +1,6 @@
 import ApplicationLogo from "@/Components/ApplicationLogo";
 import NavigationBar from "@/Components/NavigationBar";
+import { Head } from "@inertiajs/react";
 import { PropsWithChildren } from "react";
 import { ToastContainer } from "react-toastify";
 

@@ -1,6 +1,6 @@
 import ListLayout from "@/Layouts/ListLayout";
 import MovieCard from "@/Components/MovieCard";
-import { usePage, router } from "@inertiajs/react";
+import { usePage, router, Head } from "@inertiajs/react";
 
 function Collection() {
     const { playlist, msg } = usePage().props;
@@ -30,13 +30,16 @@ function Collection() {
 function SharePlaylist() {
     const { user, playlist } = usePage().props;
     return (
-        <div className=" mt-4 max-w-7xl mx-auto  flex-1">
-            <section className=" space-y-1.5">
-                <h1 className="heading">{playlist.name}</h1>
-                <h2 className="sub-heading">Curated by {user.name}</h2>
-            </section>
-            <Collection />
-        </div>
+        <>
+            <Head title={`Playlist ${playlist.name}`} />
+            <div className=" mt-4 max-w-7xl mx-auto  flex-1">
+                <section className=" space-y-1.5">
+                    <h1 className="heading">{playlist.name}</h1>
+                    <h2 className="sub-heading">Curated by {user.name}</h2>
+                </section>
+                <Collection />
+            </div>
+        </>
     );
 }
 

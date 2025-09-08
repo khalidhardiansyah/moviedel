@@ -27,7 +27,7 @@ export default function MovieDetail() {
 
     return (
         <>
-            <Head title={movie.original_title} />
+            <Head title={`Watch ${movie.original_title}`} />
             <div className="max-w-7xl mx-auto flex-1 grid grid-cols-1">
                 <iframe
                     src={server}
