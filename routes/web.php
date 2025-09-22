@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MovieDeleteController;
 use App\Http\Controllers\MovieDetailController;
 use App\Http\Controllers\PlaylistController;
 use App\Http\Controllers\ProfileController;
@@ -23,6 +24,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/playlist/{id}', [PlaylistController::class, 'update'])->name('playlist.privacy');
     Route::post('/save-to-playlist', SaveToPlaylistController::class)->name('collection.store');
     Route::delete('/playlist/{playlist}', [PlaylistController::class, 'destroy'])->name('playlist.destroy');
+    Route::delete('/playlist/{playlist}/movie/{id}', MovieDeleteController::class)->name('collection.destroy');
 });
 
 
