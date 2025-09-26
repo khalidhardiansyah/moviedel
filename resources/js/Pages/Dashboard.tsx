@@ -128,7 +128,28 @@ export default function Dashboard() {
                                 <DangerButton
                                     disabled={loading}
                                     className=" mt-2"
-                                    onClick={copyToClipboard}
+                                    onClick={() => {
+                                        router.delete(
+                                            route("playlist.destroy", {
+                                                playlist: playlist.id,
+                                            }),
+                                            {
+                                                onSuccess: (page) => {
+                                                    const typeToast =
+                                                        page.props.flash
+                                                            .response.status ||
+                                                        ("info" as TypeToast);
+                                                    toast[typeToast](
+                                                        page.props.flash
+                                                            .response.message
+                                                    );
+                                                    router.reload({
+                                                        only: ["user_playlist"],
+                                                    });
+                                                },
+                                            }
+                                        );
+                                    }}
                                 >
                                     <MultiplicationSignIcon
                                         size={20}
