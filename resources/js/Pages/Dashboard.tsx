@@ -73,171 +73,194 @@ export default function Dashboard() {
             });
         });
     }
+    const isUserPlaylistEmpty = user_playlist.length > 0 ? false : true;
     return (
         <div className=" max-w-7xl mx-auto">
             <Head title="Playlist" />
-            {user_playlist.map((playlist, i) => (
-                <section
-                    className="mb-5 bg-secondary py-4 px-5 rounded-md shadow"
-                    key={i}
-                >
-                    <div className="w-full border-b-1 border-gray-100/55 justify-between flex items-center">
-                        <h1 className=" sub-heading">{playlist.name}</h1>
+            {isUserPlaylistEmpty ? (
+                <h2 className=" capitalize md:text-xl mt-3">
+                    You ain't got no playlist
+                </h2>
+            ) : (
+                user_playlist.map((playlist, i) => (
+                    <section
+                        className="mb-5 bg-secondary py-4 px-5 rounded-md shadow"
+                        key={i}
+                    >
+                        <div className="w-full border-b-1 border-gray-100/55 justify-between flex items-center">
+                            <h1 className=" sub-heading">{playlist.name}</h1>
 
-                        <Popover className=" relative">
-                            <PopoverButton
-                                className=" cursor-pointer"
-                                onClick={() => openModal(playlist.id)}
-                            >
-                                <MoreVerticalCircle01Icon />
-                            </PopoverButton>
-
-                            <PopoverPanel
-                                anchor="bottom end"
-                                className="flex flex-col z-10 bg-primary  px-5 py-4 rounded-lg shadow border"
-                            >
-                                <h2 className="first-letter:capitalize font-bold text-lg">
-                                    Share playlist
-                                    <span className=" capitalize">
-                                        {" "}
-                                        "{playlist.name}"
-                                    </span>
-                                </h2>
-                                <div className="mt-2 flex items-center justify-between">
-                                    <InputLabel
-                                        value="Share playlist"
-                                        className=" capitalize"
-                                    />
-                                    <ToggleInput
-                                        checkedValue={playlist.is_public}
-                                        onSwitch={switchToggle}
-                                    />
-                                </div>
-
-                                <SecondaryButton
-                                    disabled={
-                                        loading || playlist.is_public === false
-                                    }
-                                    className=" mt-2"
-                                    onClick={copyToClipboard}
+                            <Popover className=" relative">
+                                <PopoverButton
+                                    className=" cursor-pointer"
+                                    onClick={() => openModal(playlist.id)}
                                 >
-                                    <Link05Icon size={20} className=" mr-1.5" />
-                                    Copy link
-                                </SecondaryButton>
+                                    <MoreVerticalCircle01Icon />
+                                </PopoverButton>
 
-                                <DangerButton
-                                    disabled={loading}
-                                    className=" mt-2"
-                                    onClick={() => {
-                                        router.delete(
-                                            route("playlist.destroy", {
-                                                playlist: playlist.id,
-                                            }),
-                                            {
-                                                onSuccess: (page) => {
-                                                    const typeToast =
-                                                        page.props.flash
-                                                            .response.status ||
-                                                        ("info" as TypeToast);
-                                                    toast[typeToast](
-                                                        page.props.flash
-                                                            .response.message
-                                                    );
-                                                    router.reload({
-                                                        only: ["user_playlist"],
-                                                    });
-                                                },
-                                            }
-                                        );
+                                <PopoverPanel
+                                    anchor="bottom end"
+                                    className="flex flex-col z-10 bg-primary  px-5 py-4 rounded-lg shadow border"
+                                >
+                                    <h2 className="first-letter:capitalize font-bold text-lg">
+                                        Share playlist
+                                        <span className=" capitalize">
+                                            {" "}
+                                            "{playlist.name}"
+                                        </span>
+                                    </h2>
+                                    <div className="mt-2 flex items-center justify-between">
+                                        <InputLabel
+                                            value="Share playlist"
+                                            className=" capitalize"
+                                        />
+                                        <ToggleInput
+                                            checkedValue={playlist.is_public}
+                                            onSwitch={switchToggle}
+                                        />
+                                    </div>
+
+                                    <SecondaryButton
+                                        disabled={
+                                            loading ||
+                                            playlist.is_public === false
+                                        }
+                                        className=" mt-2"
+                                        onClick={copyToClipboard}
+                                    >
+                                        <Link05Icon
+                                            size={20}
+                                            className=" mr-1.5"
+                                        />
+                                        Copy link
+                                    </SecondaryButton>
+
+                                    <DangerButton
+                                        disabled={loading}
+                                        className=" mt-2"
+                                        onClick={() => {
+                                            router.delete(
+                                                route("playlist.destroy", {
+                                                    playlist: playlist.id,
+                                                }),
+                                                {
+                                                    onSuccess: (page) => {
+                                                        const typeToast =
+                                                            page.props.flash
+                                                                .response
+                                                                .status ||
+                                                            ("info" as TypeToast);
+                                                        toast[typeToast](
+                                                            page.props.flash
+                                                                .response
+                                                                .message
+                                                        );
+                                                        router.reload({
+                                                            only: [
+                                                                "user_playlist",
+                                                            ],
+                                                        });
+                                                    },
+                                                }
+                                            );
+                                        }}
+                                    >
+                                        <MultiplicationSignIcon
+                                            size={20}
+                                            color="white"
+                                            className=" mr-1.5"
+                                        />
+                                        Remove Playlist
+                                    </DangerButton>
+                                </PopoverPanel>
+                            </Popover>
+                        </div>
+
+                        {playlist.collections.length > 0 ? (
+                            <div className="mt-3">
+                                <Swiper
+                                    speed={500}
+                                    modules={[Scrollbar]}
+                                    spaceBetween={15}
+                                    cssMode={true}
+                                    grabCursor={true}
+                                    scrollbar={{ draggable: true, hide: true }}
+                                    slidesPerView={3}
+                                    breakpoints={{
+                                        500: {
+                                            slidesPerView: 4,
+                                        },
+                                        700: {
+                                            slidesPerView: 5,
+                                        },
+                                        900: {
+                                            slidesPerView: 7,
+                                        },
                                     }}
                                 >
-                                    <MultiplicationSignIcon
-                                        size={20}
-                                        color="white"
-                                        className=" mr-1.5"
-                                    />
-                                    Remove Playlist
-                                </DangerButton>
-                            </PopoverPanel>
-                        </Popover>
-                    </div>
-
-                    {playlist.collections.length > 0 ? (
-                        <div className="mt-3">
-                            <Swiper
-                                speed={500}
-                                modules={[Scrollbar]}
-                                spaceBetween={15}
-                                cssMode={true}
-                                grabCursor={true}
-                                scrollbar={{ draggable: true, hide: true }}
-                                slidesPerView={3}
-                                breakpoints={{
-                                    500: {
-                                        slidesPerView: 4,
-                                    },
-                                    700: {
-                                        slidesPerView: 5,
-                                    },
-                                    900: {
-                                        slidesPerView: 7,
-                                    },
-                                }}
-                            >
-                                {playlist.collections.map((movie, i) => (
-                                    <SwiperSlide key={i}>
-                                        <MovieCard
-                                            key={i}
-                                            poster={movie.poster}
-                                            title={movie.original_title}
-                                            release_date={movie.release_date}
-                                            onWatch={() =>
-                                                router.get(movie.url)
-                                            }
-                                            playlistMode
-                                            onDelete={() => {
-                                                router.delete(
-                                                    route(
-                                                        "collection.destroy",
+                                    {playlist.collections.map((movie, i) => (
+                                        <SwiperSlide key={i}>
+                                            <MovieCard
+                                                key={i}
+                                                poster={movie.poster}
+                                                title={movie.original_title}
+                                                release_date={
+                                                    movie.release_date
+                                                }
+                                                onWatch={() =>
+                                                    router.get(movie.url)
+                                                }
+                                                playlistMode
+                                                onDelete={() => {
+                                                    router.delete(
+                                                        route(
+                                                            "collection.destroy",
+                                                            {
+                                                                playlist:
+                                                                    playlist.id,
+                                                                id: movie.id,
+                                                            }
+                                                        ),
                                                         {
-                                                            playlist:
-                                                                playlist.id,
-                                                            id: movie.id,
+                                                            onSuccess: (
+                                                                page
+                                                            ) => {
+                                                                const typeToast =
+                                                                    page.props
+                                                                        .flash
+                                                                        .response
+                                                                        .status ||
+                                                                    ("info" as TypeToast);
+                                                                toast[
+                                                                    typeToast
+                                                                ](
+                                                                    page.props
+                                                                        .flash
+                                                                        .response
+                                                                        .message
+                                                                );
+                                                                router.reload({
+                                                                    only: [
+                                                                        "user_playlist",
+                                                                    ],
+                                                                });
+                                                            },
                                                         }
-                                                    ),
-                                                    {
-                                                        onSuccess: (page) => {
-                                                            const typeToast =
-                                                                page.props.flash
-                                                                    .response
-                                                                    .status ||
-                                                                ("info" as TypeToast);
-                                                            toast[typeToast](
-                                                                page.props.flash
-                                                                    .response
-                                                                    .message
-                                                            );
-                                                            router.reload({
-                                                                only: [
-                                                                    "user_playlist",
-                                                                ],
-                                                            });
-                                                        },
-                                                    }
-                                                );
-                                            }}
-                                        />
-                                    </SwiperSlide>
-                                ))}
-                            </Swiper>
-                        </div>
-                    ) : (
-                        <h2 className=" capitalize md:text-xl mt-3">
-                            No saved movie
-                        </h2>
-                    )}
-                </section>
-            ))}
+                                                    );
+                                                }}
+                                            />
+                                        </SwiperSlide>
+                                    ))}
+                                </Swiper>
+                            </div>
+                        ) : (
+                            <h2 className=" capitalize md:text-xl mt-3">
+                                No saved movie
+                            </h2>
+                        )}
+                    </section>
+                ))
+            )}
         </div>
     );
 }
