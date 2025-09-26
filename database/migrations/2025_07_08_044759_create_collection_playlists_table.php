@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('collection_playlists', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('playlist_id')->constrained();
-            $table->foreignId('collection_id')->constrained();
+            $table->foreignId('playlist_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('collection_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

@@ -65,6 +65,6 @@ class playlist extends Model
     }
     function collections(): BelongsToMany
     {
-        return $this->belongsToMany(collection::class, 'collection_playlists')->withTimestamps();
+        return $this->belongsToMany(collection::class, 'collection_playlists', 'playlist_id', 'collection_id')->withTimestamps();
     }
 }

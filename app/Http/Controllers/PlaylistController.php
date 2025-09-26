@@ -46,6 +46,10 @@ class PlaylistController extends Controller
     {
         $user = auth()->user();
         $playlist = $user->playlists()->find($playlist);
+        if (!$playlist) {
+            return back()->with(flashMessage('Playlist not found', FlashStatus::Error));
+        }
         $playlist->delete();
+        return back()->with(flashMessage('Playlist deleted', FlashStatus::Success));
     }
 }
