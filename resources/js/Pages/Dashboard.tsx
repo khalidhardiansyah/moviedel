@@ -1,3 +1,4 @@
+import DangerButton from "@/Components/DangerButton";
 import InputLabel from "@/Components/InputLabel";
 import Modal from "@/Components/Modal";
 import MovieCard from "@/Components/MovieCard";
@@ -10,7 +11,11 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { TypeToast, UserPlaylists } from "@/types";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { Head, router, useForm, usePage } from "@inertiajs/react";
-import { Link05Icon, MoreVerticalCircle01Icon } from "hugeicons-react";
+import {
+    Link05Icon,
+    MoreVerticalCircle01Icon,
+    MultiplicationSignIcon,
+} from "hugeicons-react";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { Scrollbar } from "swiper/modules";
@@ -108,6 +113,7 @@ export default function Dashboard() {
                                         onSwitch={switchToggle}
                                     />
                                 </div>
+
                                 <SecondaryButton
                                     disabled={
                                         loading || playlist.is_public === false
@@ -118,6 +124,19 @@ export default function Dashboard() {
                                     <Link05Icon size={20} className=" mr-1.5" />
                                     Copy link
                                 </SecondaryButton>
+
+                                <DangerButton
+                                    disabled={loading}
+                                    className=" mt-2"
+                                    onClick={copyToClipboard}
+                                >
+                                    <MultiplicationSignIcon
+                                        size={20}
+                                        color="white"
+                                        className=" mr-1.5"
+                                    />
+                                    Remove Playlist
+                                </DangerButton>
                             </PopoverPanel>
                         </Popover>
                     </div>
