@@ -6,6 +6,7 @@ import { SyntheticEvent, useState } from "react";
 import MovieCard from "@/Components/MovieCard";
 import ListLayout from "@/Layouts/ListLayout";
 import InputError from "@/Components/InputError";
+import SkeletonMovieCard from "@/Components/SkeletonMovieCard";
 
 export default function Index() {
     const { movies, flash, errors, keyword } = usePage().props;
