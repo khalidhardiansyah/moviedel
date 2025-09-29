@@ -34,6 +34,12 @@ class PlaylistController extends Controller
         try {
             $user = auth()->user();
             $playlist = $user->playlists()->find($id);
+            if (!$playlist) {
+                return back()->with(flashMessage('Playlist not found', FlashStatus::Error));
+            }
+            if ($user->cannot('update', $playlist)) {
+                return back()->with(flashMessage('You are not authorized to update this playlist', FlashStatus::Error));
+            }
             $playlist->is_public = $request->is_public;
             $playlist->save();
             return back()->with(flashMessage('Update privacy success', FlashStatus::Success));
@@ -46,6 +52,9 @@ class PlaylistController extends Controller
     {
         $user = auth()->user();
         $playlist = $user->playlists()->find($playlist);
+        if ($user->cannot('delete', $playlist)) {
+            return back()->with(flashMessage('You are not authorized to delete this playlist', FlashStatus::Error));
+        }
         if (!$playlist) {
             return back()->with(flashMessage('Playlist not found', FlashStatus::Error));
         }
