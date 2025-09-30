@@ -21,7 +21,7 @@ class TrendingMovieController extends Controller
 
         $filteredResult = collect($newMovieList)->map(fn($movie) => filterResponse($movie));
         return Inertia::render('Trending', [
-            "movies" => $filteredResult
+            "movies" => Inertia::lazy(fn() => $filteredResult)
         ]);
     }
 }

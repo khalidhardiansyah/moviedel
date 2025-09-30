@@ -1,11 +1,31 @@
 import NavigationBar from "@/Components/NavigationBar";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
-import { router, Link, usePage, Head, useForm } from "@inertiajs/react";
+import {
+    router,
+    Link,
+    usePage,
+    Head,
+    useForm,
+    WhenVisible,
+} from "@inertiajs/react";
 import { SyntheticEvent, useState } from "react";
 import MovieCard from "@/Components/MovieCard";
 import ListLayout from "@/Layouts/ListLayout";
 import InputError from "@/Components/InputError";
+import SkeletonMovieCard from "@/Components/SkeletonMovieCard";
+import { TextSkeleton } from "@/Components/TextSkeleton";
+
+const SkeletonMovieList = () => {
+    const { movies } = usePage().props;
+    return (
+        <ListLayout classname="max-w-7xl mx-auto">
+            {movies.map((_, i) => (
+                <SkeletonMovieCard key={i} />
+            ))}
+        </ListLayout>
+    );
+};
 
 export default function Index() {
     const { movies, flash, errors, keyword } = usePage().props;
@@ -66,22 +86,36 @@ export default function Index() {
                 )}
                 {movies && (
                     <>
-                        <h1 className=" mb-4 heading text-center">
-                            Search Result for {keyword}
-                        </h1>
+                        <WhenVisible
+                            data="movies"
+                            fallback={
+                                <TextSkeleton className=" mx-auto w-80 md:w-96" />
+                            }
+                        >
+                            <h1 className=" mb-4 heading text-center">
+                                Search Result for {keyword}
+                            </h1>
+                        </WhenVisible>
 
                         <div className="movies__result">
-                            <ListLayout classname=" max-w-7xl mx-auto">
-                                {movies.map((movie, i) => (
-                                    <MovieCard
-                                        key={i}
-                                        poster={movie.poster}
-                                        title={movie.original_title}
-                                        release_date={movie.release_date}
-                                        onWatch={() => router.get(movie.url)}
-                                    />
-                                ))}
-                            </ListLayout>
+                            <WhenVisible
+                                data="movies"
+                                fallback={<SkeletonMovieList />}
+                            >
+                                <ListLayout classname=" max-w-7xl mx-auto">
+                                    {movies.map((movie, i) => (
+                                        <MovieCard
+                                            key={i}
+                                            poster={movie.poster}
+                                            title={movie.original_title}
+                                            release_date={movie.release_date}
+                                            onWatch={() =>
+                                                router.get(movie.url)
+                                            }
+                                        />
+                                    ))}
+                                </ListLayout>
+                            </WhenVisible>
                         </div>
                     </>
                 )}
