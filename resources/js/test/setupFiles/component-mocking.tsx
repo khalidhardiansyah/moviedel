@@ -1,7 +1,8 @@
 import { InertiaLinkProps } from "@inertiajs/react";
 import "@testing-library/jest-dom/vitest";
 import { vi } from "vitest";
-import { Ziggy } from "@/ziggy";
+import { Ziggy } from "../../ziggy";
+import type { Config } from "ziggy-js";
 import { route as _route } from "ziggy-js";
 
 vi.mock("@inertiajs/react", () => {
@@ -24,4 +25,6 @@ vi.mock("@inertiajs/react", () => {
         })),
     };
 });
-(global as any).route = (name: string) => _route(name, undefined, false, Ziggy);
+
+(global as any).route = (name: string) =>
+    _route(name, undefined, false, Ziggy as unknown as Config);

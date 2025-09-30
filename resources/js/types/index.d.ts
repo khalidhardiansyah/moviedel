@@ -66,5 +66,6 @@ export type PageProps<
     recommendation_list: Collection[];
     movies: Collection[];
     flash: flash;
+    msg: string;
     keyword: string;
 };

@@ -1,10 +1,10 @@
 import { Switch } from "@headlessui/react";
 
-// type ToggleProps = {
-//     checkedValue: boolean | undefined;
-//     setCheckedValue: undefined;
-// };
-function ToggleInput({ checkedValue, onSwitch }) {
+interface ToggleInputProps {
+    checkedValue: boolean;
+    onSwitch: (value: boolean) => void;
+}
+function ToggleInput({ checkedValue, onSwitch }: ToggleInputProps) {
     return (
         <Switch
             defaultChecked={checkedValue}
