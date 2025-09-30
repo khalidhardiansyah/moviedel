@@ -20,7 +20,7 @@
     "include": [
         "resources/js/**/*.ts",
         "resources/js/**/*.tsx",
-        "resources/js/**/*.d.ts",
-        "resources/js/test/*.test.ts"
-    ]
+        "resources/js/**/*.d.ts"
+    ],
+    "exclude": ["resources/js/test/*.test.ts"]
 }
