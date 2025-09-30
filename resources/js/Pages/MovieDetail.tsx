@@ -3,8 +3,8 @@ import Modal from "@/Components/Modal";
 import SectionInfo from "@/Components/SectionInfo";
 import ServerButton from "@/Components/ServerButton";
 import { Bookmark02Icon, Cancel01Icon } from "hugeicons-react";
-import { Head, router, useForm, usePage, WhenVisible } from "@inertiajs/react";
-import { ReactElement, useState } from "react";
+import { Head, router, usePage, WhenVisible } from "@inertiajs/react";
+import { useState } from "react";
 import FormCreatePlaylist from "@/Components/FormCreatePlaylist";
 import FormAddMovieToPlaylist from "@/Components/FormAddMovieToPlaylist";
 import SliderMovieList from "@/Components/SliderMovieList";
@@ -115,7 +115,6 @@ const SkeletonMovieInfo = () => {
 };
 
 const SkeletonMobileImage = () => {
-    const length = 3;
     return (
         <div className="p-0 md:hidden my-5 md:mb-0">
             <div className=" bg-gray-200 animate-pulse w-full h-96 rounded-md block">
