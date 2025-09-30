@@ -106,7 +106,7 @@ export default function Login({
                         <PrimaryButton className="w-full" disabled={processing}>
                             Log in
                         </PrimaryButton>
-                        {canResetPassword && (
+                        {/* {canResetPassword && (
                             <div className=" flex items-center gap-x-1.5 w-full">
                                 <span className=" italic text-sm">
                                     Forgot your password?
@@ -115,7 +115,7 @@ export default function Login({
                                     Reset it
                                 </BaseLink>
                             </div>
-                        )}
+                        )} */}
 
                         <div className=" flex items-center gap-x-1.5 w-full">
                             <span className="italic text-sm">New here?</span>
